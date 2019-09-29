@@ -1,0 +1,17 @@
+<div>
+  <button routerLink="">Home</button>
+</div>
+<ng-template #isNotAuthorized>
+  <div>
+    <button (click)="openLogin();" mat-raised-button>Log in</button>
+    <button (click)="openSignup();" mat-raised-button>Sign up</button>
+  </div>
+</ng-template>
+<div *ngIf="authService.user | async else isNotAuthorized">
+    <!-- <button *ngIf="authService.user" routerLink="">New question</button> -->
+    <!-- <button mat-button [matMenuTriggerFor]="menu">{{ (authService.user | async)?.email }}</button> -->
+    <!-- <mat-menu #menu="matMenu">
+      <button (click)="linkToProfile()" mat-menu-item>Profile</button>
+      <button (click)="logout()" mat-menu-item>Sign out</button>
+    </mat-menu> -->
+</div>
