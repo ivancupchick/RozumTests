@@ -1,5 +1,7 @@
 <div>
   <button routerLink="">Home</button>
+  <button *ngIf="authService.user | async" routerLink="tests">Tests</button>
+  <!-- insert routerLink to test -->
 </div>
 <ng-template #isNotAuthorized>
   <div>
@@ -8,10 +10,14 @@
   </div>
 </ng-template>
 <div *ngIf="authService.user | async else isNotAuthorized">
-    <!-- <button *ngIf="authService.user" routerLink="">New question</button> -->
+    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="new-users">New Users</button>
+    <button *ngIf="authService.userId" (click)="logOut()">Log Out</button>
+    <!-- insert routerLink to test -->
     <!-- <button mat-button [matMenuTriggerFor]="menu">{{ (authService.user | async)?.email }}</button> -->
     <!-- <mat-menu #menu="matMenu">
       <button (click)="linkToProfile()" mat-menu-item>Profile</button>
       <button (click)="logout()" mat-menu-item>Sign out</button>
     </mat-menu> -->
 </div>
+
+<div appModalHolder></div>

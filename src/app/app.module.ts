@@ -12,11 +12,22 @@ import { AuthService } from './services/auth.service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { LoginComponent } from './components/modals/login/login.component';
+import { ModalModule } from './modal/modal.module';
+import { ModalService } from './modal/modal.service';
+import { SignUpComponent } from './components/modals/sign-up/sign-up.component';
+import { TestsComponent } from './components/tests/tests.component';
+import { NewUsersComponent } from './components/new-users/new-users.component';
+import { UsersService } from './services/users.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent,
+    SignUpComponent,
+    TestsComponent,
+    NewUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -25,9 +36,16 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     FormsModule,
+    ModalModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    ModalService,
+    UsersService
+  ],
+  entryComponents: [
+    LoginComponent,
+    SignUpComponent
   ],
   bootstrap: [AppComponent]
 })

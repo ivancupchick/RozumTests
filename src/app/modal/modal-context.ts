@@ -15,6 +15,7 @@ export class ModalContext<T> {
   constructor() { }
 
   private hide() {
+    console.log(this.containerRef.indexOf(this.componentRef.hostView));
     this.containerRef.remove(this.containerRef.indexOf(this.componentRef.hostView));
   }
 

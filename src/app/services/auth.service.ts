@@ -10,7 +10,7 @@ export class UserInfo {
   constructor(
       public uid: string = '',
       public id: number = 0,
-      public role: string = 'User',
+      public role: 'User' | 'Admin' = 'User',
       public name: string = 'Anonymous',
       public email: string = '',
       public photoUrl: string = 'https://material.angular.io/assets/img/examples/shiba1.jpg',
@@ -24,9 +24,9 @@ export class AuthService {
   userId: string;
 
   linkUsers: any;
-  users: UserInfo[];
+  users: UserInfo[] = [];
   userInfo: UserInfo;
-  usersLength: number;
+  usersLength = 1;
 
   constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase) {
     this.linkUsers = db.list('users');
@@ -38,7 +38,21 @@ export class AuthService {
       }
     });
 
-    this.userInfo = this.receiveUserInfo();
+    this.getUsersValueChanges()
+      .subscribe((users: UserInfo[]) => {
+        this.users = users || [];
+
+        this.usersLength = users.length + 1;
+
+        users.forEach(( userInfomation: UserInfo) => {
+          if (this.userId === userInfomation.uid) {
+            this.userInfo = userInfomation;
+          }
+        });
+      });
+
+    // this.userInfo = this.receiveUserInfo();
+    // console.log(this.userInfo);
   }
 
   private pushUserInfoToDB(credential: auth.UserCredential) { // users: UserInfo[]
@@ -49,15 +63,22 @@ export class AuthService {
       }
     });
     if (count) {
-      console.log('User sending to db...'); // delete this line
-      this.db.list('users').push({
-        uid: credential.user.uid,
-        id: this.usersLength,
-        role: 'User',
-        name: credential.user.displayName || 'Anonymous',
-        email: credential.user.email,
-        photoUrl: credential.user.photoURL || 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-      });
+      this.linkUsers
+        .push({
+          uid: credential.user.uid,
+          id: this.usersLength || 1,
+          role: 'User',
+          name: credential.user.displayName || 'Anonymous',
+          email: credential.user.email,
+          photoUrl: credential.user.photoURL || 'https://material.angular.io/assets/img/examples/shiba1.jpg',
+          approved: false
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          console.log('end');
+        });
     }
   }
 
@@ -89,7 +110,7 @@ export class AuthService {
   //   );
   // }
 
-  public createUserWithEmail(email: string, password: string) {
+  public createUserWithEmail(email: string, password: string, name: string) {
     from(this.afAuth.auth.createUserWithEmailAndPassword(email, password))
       .subscribe(
         (credential) => {
@@ -104,31 +125,17 @@ export class AuthService {
     return this.userInfo;
   }
 
-  private receiveUserInfo(): UserInfo {
-    const returnUserInfo = (uid: string) => {
-      this.db.list('users').valueChanges().subscribe( (users: UserInfo[]) => {
-        this.users = users;
-        this.usersLength = users.length + 1;
-
-        users.forEach(( userInfomation: UserInfo) => {
-          if (uid === userInfomation.uid) {
-            this.userInfo = userInfomation;
-            return userInfomation;
-          }
+  public getUserInfo(): Observable<UserInfo> {
+    return Observable.create(obs => {
+      this.getUsersValueChanges()
+        .subscribe((users: UserInfo[]) => {
+          users.forEach(( userInfomation: UserInfo) => {
+            if (this.userId === userInfomation.uid) {
+              obs.next(userInfomation);
+            }
+          });
         });
-      });
-    };
-
-    if (this.afAuth.authState) {
-      this.afAuth.authState
-        .subscribe( (user) => {
-          if (user) {
-            returnUserInfo(user.uid);
-          }
-        });
-    }
-
-    return this.userInfo;
+    });
   }
 
   public getUserInfoFromDBWithUID(uid: string): UserInfo {
@@ -152,6 +159,6 @@ export class AuthService {
   }
 
   getUsersValueChanges() {
-    return this.db.list('users').valueChanges();
+    return this.linkUsers.valueChanges();
   }
 }

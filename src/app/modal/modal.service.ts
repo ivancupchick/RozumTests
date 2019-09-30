@@ -4,7 +4,6 @@ import {
   Injectable,
   ViewContainerRef,
   ComponentRef,
-  ReflectiveInjector,
   Injector
 } from '@angular/core';
 
@@ -30,8 +29,7 @@ export class ModalService {
   open<T>(
     type: Type<any>,
     data?: any,
-    options: { hideOnBackdropClick?: boolean,
-    containerType: Type<any> } = {containerType: ModalContainerComponent}
+    options: { hideOnBackdropClick?: boolean, containerType: Type<any> } = {containerType: ModalContainerComponent}
   ): Promise<T> {
     if (!this.viewContainerRef) {
       return Promise.reject('No view container');

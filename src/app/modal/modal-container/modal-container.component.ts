@@ -6,7 +6,7 @@ import { ModalContainer } from '../modal-container';
 @Component({
   selector: 'app-modal-container',
   templateUrl: './modal-container.component.html',
-  styleUrls: ['./modal-container.component.css'],
+  styleUrls: ['./modal-container.component.scss'],
   animations: [
     trigger('host', [
       transition(':leave', [
@@ -68,4 +68,10 @@ export class ModalContainerComponent implements ModalContainer {
   @HostBinding('@host') host;
   @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
   context: ModalContext<any>;
+
+  clickOut() {
+    if (this.context) {
+      this.context.resolve(undefined);
+    }
+  }
 }
