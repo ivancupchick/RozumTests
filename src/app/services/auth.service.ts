@@ -55,7 +55,7 @@ export class AuthService {
     // console.log(this.userInfo);
   }
 
-  private pushUserInfoToDB(credential: auth.UserCredential) { // users: UserInfo[]
+  private pushUserInfoToDB(credential: auth.UserCredential, name: string) { // users: UserInfo[]
     let count = true;
     this.users.forEach( (user: UserInfo) => {
       if (user.uid === credential.user.uid) {
@@ -68,7 +68,7 @@ export class AuthService {
           uid: credential.user.uid,
           id: this.usersLength || 1,
           role: 'User',
-          name: credential.user.displayName || 'Anonymous',
+          name: credential.user.displayName || name || 'Anonymous',
           email: credential.user.email,
           photoUrl: credential.user.photoURL || 'https://material.angular.io/assets/img/examples/shiba1.jpg',
           approved: false
@@ -114,7 +114,7 @@ export class AuthService {
     from(this.afAuth.auth.createUserWithEmailAndPassword(email, password))
       .subscribe(
         (credential) => {
-          this.pushUserInfoToDB(credential);
+          this.pushUserInfoToDB(credential, name);
         }, (error) => {
           throw new Error(error);
         }

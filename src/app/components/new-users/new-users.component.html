@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="container-buttons"></div>
+  <div *ngFor="let user of users" class="user-row">
+    <span>{{user.name}} - {{user.email}}</span>
+    <span>
+      <button (click)="approveUser(user.uid)">Approve User</button>
+      <button (click)="delteUser(user.uid)">Delete User</button>
+    </span>
+  </div>
+</div>

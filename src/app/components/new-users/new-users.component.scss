@@ -1,0 +1,16 @@
+.container {
+  height: calc(100vh - 40px);
+  width: 100%;
+  background: #333333;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .user-row {
+    width: 100%;
+    padding: 2px 5px;
+    border: #f1ff6f 1px solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
