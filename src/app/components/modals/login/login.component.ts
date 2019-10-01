@@ -8,6 +8,9 @@ import { ModalContext } from 'src/app/modal/modal-context';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
+  email: any;
+  name: any;
+  password: any;
 
   constructor(private authService: AuthService, private context: ModalContext<LoginComponent>) { }
 

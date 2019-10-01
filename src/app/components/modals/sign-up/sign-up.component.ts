@@ -8,6 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./sign-up.component.sass']
 })
 export class SignUpComponent implements OnInit {
+  email: any;
+  name: any;
+  password: any;
 
   constructor(private context: ModalContext<SignUpComponent>, private authService: AuthService) { }
 

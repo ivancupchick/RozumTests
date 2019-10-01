@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Test, TestsService } from 'src/app/services/tests.service';
 
 @Component({
   selector: 'app-tests',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tests.component.scss']
 })
 export class TestsComponent implements OnInit {
+  tests: Test[];
 
-  constructor() { }
+  constructor(private testsService: TestsService) { }
 
   ngOnInit() {
+    this.testsService.getTasks()
+      .subscribe((res: Test[]) => {
+        this.tests = res || [];
+      });
   }
 
   createTest() {
