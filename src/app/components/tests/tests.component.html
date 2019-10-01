@@ -1,3 +1,24 @@
-<p>
-  tests works!
-</p>
+<div class="container">
+  <div class="toolbar">
+    <button (click)="createTest()">New Test</button>
+    <button disabled>Edit Test</button>
+    <button disabled>Delete Test</button>
+  </div>
+
+  <div class="container-tests">
+    <!-- <div class="container-test">
+      <p>{{test.name}}</p>
+      <button (click)="enterTest(test.key)">Enter</button>
+      <button *ngIf="true" >Edit</button>
+    </div> -->
+
+  </div>
+  <!-- <div class="container-buttons"></div>
+  <div *ngFor="let user of users" class="user-row">
+    <span>{{user.name}} - {{user.email}}</span>
+    <span>
+      <button (click)="approveUser(user.uid)">Approve User</button>
+      <button (click)="delteUser(user.uid)" disabled>Delete User</button>
+    </span>
+  </div> -->
+</div>

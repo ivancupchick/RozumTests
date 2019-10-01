@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireList } from '@angular/fire/database';
 import { UserInfo } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { take, map, catchError } from 'rxjs/operators';
@@ -7,8 +7,9 @@ import { take, map, catchError } from 'rxjs/operators';
 @Injectable()
 export class UsersService {
   users: UserInfo[];
+  linkUsers: AngularFireList<UserInfo> = this.db.list('users');
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
     // this.linkUsers = db.list('users');
   }
 
@@ -16,7 +17,7 @@ export class UsersService {
     if (this.users && this.users.length > 0 && !force) {
       return of(this.users);
     } else {
-      return this.db.list('users')
+      return this.linkUsers
         .valueChanges()
         .pipe(
           take(1),
@@ -35,34 +36,39 @@ export class UsersService {
     }
   }
 
-  // approveQuastion(id: number) {
-  //   const sendApproveQuestion = (key: string) => {
-  //     let approvedQuastion: Quastion;
-  //     this.quastions.forEach((question: Quastion) => {
-  //       if (question.id === id) {
-  //         approvedQuastion = question;
-  //       }
-  //     });
+  approveUser(uid: string): Observable<boolean> {
+    return Observable.create((obs) => {
+      const sendApproveQuestion = (key: string) => {
+        let approvedUser: UserInfo;
+        this.users.forEach((user: UserInfo) => {
+          if (user.uid === uid) { // may convert to string
+            approvedUser = user;
+          }
+        });
 
-  //     approvedQuastion.approved = true;
-  //     this.db.list('quastions').update(key, {
-  //       approved: true,
-  //       title: approvedQuastion.title,
-  //       id: approvedQuastion.id,
-  //       tags: approvedQuastion.tags,
-  //       description: approvedQuastion.description,
-  //       author: approvedQuastion.author,
-  //       dateOfCreation: approvedQuastion.dateOfCreation,
-  //       answerID: approvedQuastion.answerID,
-  //     });
-  //   };
+        approvedUser.approved = true;
+        this.linkUsers
+          .update(key, Object.assign({}, approvedUser, { approved: true }))
+          .then(
+            (res) => {
+              console.log(res);
+              obs.next(true);
+            },
+            (error) => {
+              console.log(error);
+              obs.next(false);
+            }
+          );
+      };
 
-  //   this.db.list('quastions').snapshotChanges().forEach( changes => {
-  //     changes.forEach( (response: AngularFireAction<DatabaseSnapshot<Quastion>>) => {
-  //         if (response.payload.val().id === id)  {
-  //         sendApproveQuestion(response.key);
-  //       }
-  //     });
-  //   });
-  // }
+      this.linkUsers.snapshotChanges()
+        .forEach((changes: AngularFireAction<DatabaseSnapshot<UserInfo>>[]) => {
+          changes.forEach( (response: AngularFireAction<DatabaseSnapshot<UserInfo>>) => {
+            if (response.payload.val().uid === uid) { // may convert to string
+              sendApproveQuestion(response.key);
+            }
+          });
+        });
+    });
+  }
 }

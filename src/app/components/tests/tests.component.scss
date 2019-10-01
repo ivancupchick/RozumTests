@@ -1,0 +1,49 @@
+.container {
+  height: calc(100vh - 40px);
+  width: 100%;
+  background: #333333;
+  padding: 20px;
+  box-sizing: border-box; // add to global styles
+
+  .toolbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px 10px;
+    width: 100%;
+    border: #69b145 1px solid;
+    box-sizing: border-box; // add to global styles
+    margin-bottom: 5px;
+  }
+
+  .toolbar button + button {
+    margin-left: 5px;
+  }
+
+  &-tests {
+    height: 100%;
+    box-sizing: border-box; // add to global styles
+    display: flex;
+
+
+  }
+
+  &-test {
+    height: 100px;
+    width: 33%;
+    box-sizing: border-box; // add to global styles
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  // .user-row {
+  //   width: 100%;
+  //   padding: 2px 5px;
+  //   border: #f1ff6f 1px solid;
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  // }
+}

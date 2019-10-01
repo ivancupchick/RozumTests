@@ -21,6 +21,11 @@ export class NewUsersComponent implements OnInit {
 
   approveUser(uid: string) {
     console.log('approve', uid);
+
+    this.usersService.approveUser(uid)
+      .subscribe((res: boolean) => {
+        console.log(res);
+      });
   }
 
   delteUser(uid: string) {

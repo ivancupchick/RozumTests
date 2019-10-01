@@ -19,6 +19,8 @@ import { SignUpComponent } from './components/modals/sign-up/sign-up.component';
 import { TestsComponent } from './components/tests/tests.component';
 import { NewUsersComponent } from './components/new-users/new-users.component';
 import { UsersService } from './services/users.service';
+import { TasksService } from './services/tasks.service';
+import { TestsService } from './services/tests.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { UsersService } from './services/users.service';
   providers: [
     AuthService,
     ModalService,
-    UsersService
+    UsersService,
+    TasksService,
+    TestsService
   ],
   entryComponents: [
     LoginComponent,
