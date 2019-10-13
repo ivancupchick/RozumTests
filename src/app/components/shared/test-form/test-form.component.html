@@ -1,0 +1,41 @@
+<div class="test">
+  <div>
+    <div>
+      <div class="mainInfo">
+        <span>Общая информация теста</span>
+      </div>
+    </div>
+    <div>
+      <label for="name">Название Теста</label>
+      <input name="name" type="text" [(ngModel)]="test.name" required>
+
+      <label for="name">Время на выполнение в минутах</label>
+      <input name="name" type="number" [(ngModel)]="test.time" required>
+
+      <label for="description">Описание Теста</label>
+      <textarea name="description" [(ngModel)]="test.description" required></textarea>
+    </div>
+  </div>
+  <div *ngFor="let task of test.tasks; let taskIndex = index">
+    <div>
+      <button type="button" (click)="addNewOption(taskIndex)">Добавить вариант ответа</button>
+      <button type="button" (click)="deleteNewOption(taskIndex)">Удалить вариант ответа</button>
+    </div>
+    <div>
+      <div>
+        <label for="description">Текст задания</label>
+        <textarea name="description" [(ngModel)]="task.description" required></textarea>
+      </div>
+
+      <div *ngFor="let newOption of task.options; let i = index">
+        <label for="description-{{i}}">Вариант ответа</label>
+        <input name="description-{{i}}" type="text" [(ngModel)]="newOption.description" required>
+
+        <label for="checked-{{i}}">Верно</label>
+        <input type="checkbox" name="checked-{{i}}" [(ngModel)]="newOption.checked">
+      </div>
+    </div>
+  </div>
+
+  <button type="button" (click)="addTask()">Добавить задание</button>
+</div>

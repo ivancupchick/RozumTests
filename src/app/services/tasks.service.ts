@@ -1,27 +1,39 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
+import { Observable, of } from 'rxjs';
+import { take, catchError, map } from 'rxjs/operators';
 
-export class Task {
-  constructor(
-      public id: number = 1,
-      public name: string = '',
-      public uidOfAthor: string = '',
-      // public tasks: Task;
-    ) { }
-}
+const unsignedTaskTestId = 9999;
+
+// export class TaskOption {
+//   constructor(
+//     public id: number,
+//     public description: string
+//   ) { }
+// }
+
+// export class Task {
+//   constructor(
+//       public id: number = 1,
+//       public testId: number = unsignedTaskTestId,
+//       public options: TaskOption[],
+//       public typeTask: 'checkbox' | 'radio',
+//       public correctOptionIds: number[]
+//     ) { }
+// }
 
 @Injectable()
 export class TasksService {
-  tasks: Task[];
-  linkTasks: AngularFireList<Task> = this.db.list('tasks');
+  // tasks: Task[];
+  // linkTasks: AngularFireList<Task> = this.db.list('tasks');
 
   constructor(private db: AngularFireDatabase) { }
 
-  // public getTasksforce = false): Observable<UserInfo[]> {
-  //   if (this.users && this.users.length > 0 && !force) {
-  //     return of(this.users);
-  //   } else {
-  //     return this.linkUsers
+  // public getTasks(force = false): Observable<Task[]> {
+  //   if (this.tasks && this.tasks.length > 0 && !force) {
+  //     return of(this.tasks);
+  //   } else {s
+  //     return this.linkTasks
   //       .valueChanges()
   //       .pipe(
   //         take(1),
@@ -29,14 +41,35 @@ export class TasksService {
   //           console.log(error);
   //           return of([]);
   //         }),
-  //         map((res: UserInfo[]) => {
+  //         map((res: Task[]) => {
   //           if (!res) {
   //             return [];
   //           }
-  //           this.users = res;
+  //           this.tasks = res;
   //           return res;
   //         })
   //       );
   //   }
+  // }
+
+  // public createTasks(tasks: Task[]): Observable<boolean> {
+  //   return Observable.create(obs => {
+  //     if (!tasks || !Array.isArray(tasks)) {
+  //       obs.next(false);
+  //     }
+
+  //     this.linkTasks
+  //       .push(tasks)
+  //       .then(() => {
+  //         obs.next(true);
+  //         console.log('end');
+  //       })
+  //       .catch((error) => {
+  //         obs.next(false);
+  //         console.log(error);
+  //       });
+  //   }).pipe(
+  //       take(1)
+  //     );
   // }
 }

@@ -21,6 +21,9 @@ import { NewUsersComponent } from './components/new-users/new-users.component';
 import { UsersService } from './services/users.service';
 import { TasksService } from './services/tasks.service';
 import { TestsService } from './services/tests.service';
+import { CreateTestComponent } from './components/create-test/create-test.component';
+import { TestFormComponent } from './components/shared/test-form/test-form.component';
+import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { TestsService } from './services/tests.service';
     LoginComponent,
     SignUpComponent,
     TestsComponent,
-    NewUsersComponent
+    NewUsersComponent,
+    CreateTestComponent,
+    TestFormComponent,
+    TakeTheTestComponent
   ],
   imports: [
     BrowserModule,

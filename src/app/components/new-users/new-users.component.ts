@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/services/users.service';
-import { UserInfo } from 'src/app/services/auth.service';
+import { UsersService, UserInfo } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-new-users',

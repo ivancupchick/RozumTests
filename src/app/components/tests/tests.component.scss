@@ -3,7 +3,8 @@
   width: 100%;
   background: #333333;
   padding: 20px;
-  box-sizing: border-box; // add to global styles
+  display: flex;
+  flex-direction: column;
 
   .toolbar {
     display: flex;
@@ -12,7 +13,6 @@
     padding: 5px 10px;
     width: 100%;
     border: #69b145 1px solid;
-    box-sizing: border-box; // add to global styles
     margin-bottom: 5px;
   }
 
@@ -22,16 +22,14 @@
 
   &-tests {
     height: 100%;
-    box-sizing: border-box; // add to global styles
     display: flex;
-
-
+    flex-direction: column;
   }
 
   &-test {
-    height: 100px;
-    width: 33%;
-    box-sizing: border-box; // add to global styles
+    height: 300px;
+    width: 100%;
+    // width: 33%;
 
     p {
       font-size: 1rem;

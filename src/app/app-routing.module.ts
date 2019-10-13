@@ -2,11 +2,26 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TestsComponent } from './components/tests/tests.component';
 import { NewUsersComponent } from './components/new-users/new-users.component';
+import { CreateTestComponent } from './components/create-test/create-test.component';
+import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'quastions', pathMatch: 'full' },
-  { path: 'tests', component: TestsComponent },
-  { path: 'new-users', component: NewUsersComponent }
+const routes: Routes = [{
+    path: '',
+    redirectTo: 'quastions',
+    pathMatch: 'full'
+  }, {
+    path: 'tests',
+    component: TestsComponent
+  }, {
+    path: 'new-users',
+    component: NewUsersComponent
+  }, {
+    path: 'new-test',
+    component: CreateTestComponent
+  }, {
+    path: 'take-the-test',
+    component: TakeTheTestComponent
+  }
   // { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   // { path: 'quastion', component: CreatequastionComponent, canActivate: [AuthGuard] },
   // { path: 'quastion/:id', component: QuastionComponent },

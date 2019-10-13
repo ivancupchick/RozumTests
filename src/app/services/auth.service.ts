@@ -1,34 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireAuth} from '@angular/fire/auth';
 import { User, auth } from 'firebase/app';
 
-import { Observable, from } from 'rxjs';
-
-export class UserInfo {
-  constructor(
-      public uid: string = '',
-      public id: number = 0,
-      public role: 'User' | 'Admin' = 'User',
-      public name: string = 'Anonymous',
-      public email: string = '',
-      public photoUrl: string = 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-      public approved: boolean = false
-    ) { }
-}
+import { Observable, from, zip } from 'rxjs';
+import { UserInfo, UsersService } from './users.service';
+import { map, debounce, debounceTime, take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
   user: Observable<User>;
   userId: string;
 
-  linkUsers: any;
+  linkUsers: AngularFireList<UserInfo>;
   users: UserInfo[] = [];
   userInfo: UserInfo;
   usersLength = 1;
 
-  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase) {
+  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private usersService: UsersService) {
     this.linkUsers = db.list('users');
     this.user = afAuth.authState;
 
@@ -55,6 +45,20 @@ export class AuthService {
     // console.log(this.userInfo);
   }
 
+  public getUserInfo(): Observable<UserInfo> {
+    return Observable.create(obs => {
+      this.user
+        .subscribe(user => {
+          this.usersService.getUsers()
+            .pipe( take(1) )
+            .subscribe((users: UserInfo[]) => {
+              const userInfo = user ? users.find(userObs => userObs.uid === user.uid) : null;
+              obs.next(userInfo || null);
+            });
+        });
+    });
+  }
+
   private pushUserInfoToDB(credential: auth.UserCredential, name: string) { // users: UserInfo[]
     let count = true;
     this.users.forEach( (user: UserInfo) => {
@@ -63,16 +67,16 @@ export class AuthService {
       }
     });
     if (count) {
+      const user = new UserInfo({
+        uid: credential.user.uid,
+        id: this.usersLength,
+        name: credential.user.displayName || name,
+        email: credential.user.email,
+        photoUrl: credential.user.photoURL,
+      });
+
       this.linkUsers
-        .push({
-          uid: credential.user.uid,
-          id: this.usersLength || 1,
-          role: 'User',
-          name: credential.user.displayName || name || 'Anonymous',
-          email: credential.user.email,
-          photoUrl: credential.user.photoURL || 'https://material.angular.io/assets/img/examples/shiba1.jpg',
-          approved: false
-        })
+        .push(user)
         .catch((error) => {
           console.log(error);
         })
@@ -125,18 +129,16 @@ export class AuthService {
     return this.userInfo;
   }
 
-  public getUserInfo(): Observable<UserInfo> {
-    return Observable.create(obs => {
-      this.getUsersValueChanges()
-        .subscribe((users: UserInfo[]) => {
-          users.forEach(( userInfomation: UserInfo) => {
-            if (this.userId === userInfomation.uid) {
-              obs.next(userInfomation);
-            }
-          });
-        });
-    });
-  }
+  // public getUserInfo(): Observable<UserInfo> {
+  //   return this.getUsersValueChanges()
+  //     .pipe(
+  //       map((users: UserInfo[]) => {
+  //         const user = users.find(userInfomation => userInfomation.uid === this.userId);
+
+  //         return user;
+  //       })
+  //     );
+  // }
 
   public getUserInfoFromDBWithUID(uid: string): UserInfo {
     let userResult: UserInfo;

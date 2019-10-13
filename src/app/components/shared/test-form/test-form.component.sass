@@ -1,0 +1,56 @@
+.test
+  // height: 100%
+  width: 100%
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  border: 1px red solid
+
+  &>div
+    width: 100%
+    border: 1px red solid
+    display: flex
+
+    label
+      margin: 5px 0
+
+    &> div
+      padding: 10px
+      margin: 5px
+
+    &> div:first-child
+      width: 200px
+      display: flex
+      flex-direction: column
+      justify-content: flex-end
+      border: 1px red solid
+
+      .mainInfo
+        height: 100%
+
+    &> div:last-child
+      flex: 1 1 auto
+      border: 1px red solid
+      display: flex
+      flex-direction: column
+
+      textarea
+        width: 100% !important
+
+      &> div
+        display: flex
+        align-items: center
+
+        label
+          margin: 2px 5px
+          padding: 2px 0
+
+        input[type=text]
+          flex: 1 1 auto
+          margin: 2px
+
+      &> div:first-child
+        display: flex
+        flex-direction: column
+        margin-bottom: 5px
+        align-items: flex-start

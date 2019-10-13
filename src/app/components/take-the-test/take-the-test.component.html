@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="counter">
+    Времени осталось: {{counter}}
+  </div>
+
+  <div class="task" *ngFor="let task of tasks">
+    <p></p>
+    <p>{{task.description}}</p>
+
+    <div *ngFor="let option of task.options">
+      <label for="input-{{option.id}}">{{option.description}}</label>
+      <input [type]="task.typeTask" name="input-{{option.id}}" class="input-{{task.id}}-{{option.id}}">
+    </div>
+    <p></p>
+  </div>
+</div>

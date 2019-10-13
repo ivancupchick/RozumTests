@@ -1,17 +1,18 @@
 <div class="container">
   <div class="toolbar">
-    <button (click)="createTest()">New Test</button>
+    <button routerLink="../new-test">New Test</button>
     <button disabled>Edit Test</button>
     <button disabled>Delete Test</button>
   </div>
 
   <div class="container-tests">
-    <!-- <div class="container-test">
+    <div class="container-test" *ngFor="let test of tests">
       <p>{{test.name}}</p>
-      <button (click)="enterTest(test.key)">Enter</button>
-      <button *ngIf="true" >Edit</button>
-    </div> -->
-
+      <p>{{test.description}}</p>
+      <button (click)="enterTest(test)">Пройти</button>
+      <button *ngIf="true" disabled>Редактировать</button>
+      <button *ngIf="true" (click)="deleteTest(test.id)">Удалить</button>
+    </div>
   </div>
   <!-- <div class="container-buttons"></div>
   <div *ngFor="let user of users" class="user-row">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Test, TestsService } from 'src/app/services/tests.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tests',
@@ -7,18 +8,23 @@ import { Test, TestsService } from 'src/app/services/tests.service';
   styleUrls: ['./tests.component.scss']
 })
 export class TestsComponent implements OnInit {
-  tests: Test[];
+  tests: Test[] = [];
 
-  constructor(private testsService: TestsService) { }
+  constructor(private testsService: TestsService, private router: Router) { }
 
   ngOnInit() {
-    this.testsService.getTasks()
+    this.testsService.getTests()
       .subscribe((res: Test[]) => {
         this.tests = res || [];
       });
   }
 
-  createTest() {
-    console.log('create');
+  enterTest(test: Test) {
+    this.router.navigateByUrl(`take-the-test?id=${test.id}`);
+  }
+
+  deleteTest(id: number) {
+    this.testsService.deleteTest(id);
+    this.router.navigateByUrl(this.router.url);
   }
 }
