@@ -11,7 +11,7 @@
 </ng-template>
 <div *ngIf="authService.user | async else isNotAuthorized">
     <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="new-users">New Users</button>
-    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="new-users">Users</button>
+    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="users">Users</button>
     <button *ngIf="authService.userId" (click)="logOut()">Log Out</button>
     <!-- insert routerLink to test -->
     <!-- <button mat-button [matMenuTriggerFor]="menu">{{ (authService.user | async)?.email }}</button> -->

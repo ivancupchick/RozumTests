@@ -24,6 +24,7 @@ import { TestsService } from './services/tests.service';
 import { CreateTestComponent } from './components/create-test/create-test.component';
 import { TestFormComponent } from './components/shared/test-form/test-form.component';
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
+import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TakeTheTestComponent } from './components/take-the-test/take-the-test.c
     NewUsersComponent,
     CreateTestComponent,
     TestFormComponent,
-    TakeTheTestComponent
+    TakeTheTestComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

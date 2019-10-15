@@ -4,6 +4,7 @@ import { TestsComponent } from './components/tests/tests.component';
 import { NewUsersComponent } from './components/new-users/new-users.component';
 import { CreateTestComponent } from './components/create-test/create-test.component';
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [{
     path: '',
@@ -21,6 +22,9 @@ const routes: Routes = [{
   }, {
     path: 'take-the-test',
     component: TakeTheTestComponent
+  }, {
+    path: 'users',
+    component: UsersComponent
   }
   // { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   // { path: 'quastion', component: CreatequastionComponent, canActivate: [AuthGuard] },
