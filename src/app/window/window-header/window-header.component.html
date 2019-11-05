@@ -1,0 +1,7 @@
+<ng-content></ng-content>
+<div class="header-actions">
+  <!-- <button class="modal-pin k-button-icon k-button k-flat" (click)="handlePin($event)" [class.active]="modal.isPinned" *ngIf="modal.isPinnable || modal.isPinned"><span class="fa fa-thumb-tack"></span></button> -->
+  <button class="modal-close k-button-icon k-button k-flat" (mousedown)="handleCloseMousedown($event)" (click)="handleClose($event)" *ngIf="!noCloseButton"><span class="fa fa-close"></span></button>
+</div>
+
+<!-- !TODO: CHANGE CLASSES -->

@@ -1,0 +1,32 @@
+<div class="modal-bg-overlay" *ngIf="showBackgroundMask" [style.zIndex]="zIndex - 1" (click)="handleClickOutside()"></div>
+
+<!--      [class.isPinned]="isPinned"
+ -->
+<div #element *ngIf="show"
+     class="modal-element"
+     [class.isGrabbed]="isGrabbed"
+     [class.isResized]="isResized"
+     [style.width.px]="safeWidth"
+     [style.height.px]="safeHeight"
+     [style.top.px]="safeTop"
+     [style.left.px]="safeLeft"
+     [style.minWidth.px]="minWidth"
+     [style.minHeight.px]="minHeight"
+     [style.maxWidth.px]="maxWidth ? maxWidth : ''"
+     [style.maxHeight.px]="maxHeight ? maxHeight : ''"
+     [style.zIndex]="zIndex"
+     [style.visibility]="visibility">
+  <ng-content></ng-content>
+
+  <!-- <kendo-resize-sensor (resize)="onResize()"></kendo-resize-sensor> -->
+
+  <div class="resize-line top" (mousedown)="enableResize($event, grabPlaces.top)"></div>
+  <div class="resize-line right" (mousedown)="enableResize($event, grabPlaces.right)"></div>
+  <div class="resize-line bottom" (mousedown)="enableResize($event, grabPlaces.bottom)"></div>
+  <div class="resize-line left" (mousedown)="enableResize($event, grabPlaces.left)"></div>
+
+  <div class="resize-handle bottom-left" (mousedown)="enableResize($event, grabPlaces.bottomLeft)"></div>
+  <div class="resize-handle top-left" (mousedown)="enableResize($event, grabPlaces.topLeft)"></div>
+  <div class="resize-handle top-right" (mousedown)="enableResize($event, grabPlaces.topRight)"></div>
+  <div class="resize-handle bottom-right" (mousedown)="enableResize($event, grabPlaces.bottomRight)"></div>
+</div>
