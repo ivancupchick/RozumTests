@@ -10,11 +10,22 @@ export interface Mark {
 
 export interface TakenTest {
   id: number;
-  // time: number;
   marks: Mark[];
+  date: string; // TODO: refactor this please, create converter for db and for UI please
 }
 
-export class UserInfo {
+export interface IUserInfo {
+  uid?: string;
+  id?: number;
+  role?: 'User' | 'Admin';
+  name?: string;
+  email?: string;
+  photoUrl?: string;
+  approved?: boolean;
+  tests?: TakenTest[];
+}
+
+export class UserInfo implements IUserInfo {
   public uid: string;
   public id: number;
   public role: 'User' | 'Admin';
@@ -24,16 +35,7 @@ export class UserInfo {
   public approved: boolean;
   public tests: TakenTest[];
 
-  constructor(options: {
-    uid?: string,
-    id?: number,
-    role?: 'User' | 'Admin',
-    name?: string,
-    email?: string,
-    photoUrl?: string,
-    approved?: boolean,
-    tests?: TakenTest[]
-  }) {
+  constructor(options: IUserInfo) {
     this.uid = options.uid || '';
     this.id = options.id || 1;
     this.role = options.role || 'User';
@@ -66,7 +68,7 @@ export class UserInfo {
 @Injectable()
 export class UsersService {
   users: UserInfo[];
-  linkUsers: AngularFireList<UserInfo> = this.db.list('users');
+  linkUsers: AngularFireList<IUserInfo> = this.db.list('users');
 
   constructor(private db: AngularFireDatabase) {
     // this.linkUsers = db.list('users');
@@ -84,12 +86,15 @@ export class UsersService {
             console.log(error);
             return of([]);
           }),
-          map((res: UserInfo[]) => {
+          map((res: IUserInfo[]) => {
             if (!res) {
               return [];
             }
-            this.users = res;
-            return res;
+
+            const users: UserInfo[] = res.map(user => new UserInfo(user));
+
+            this.users = users;
+            return users;
           })
         );
     }
@@ -158,7 +163,8 @@ export class UsersService {
     return this.modifyUser(uid, user => {
       user.takeTest({
         id: testId,
-        marks: [ mark ]
+        marks: [ mark ],
+        date: (new Date()).toString() // refactor this please
       });
 
       return user;
