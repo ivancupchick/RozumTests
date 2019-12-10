@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireList } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { take, map, catchError } from 'rxjs/operators';
-import { UserInfo, IUserInfo } from './entities';
+import { UserInfo } from './entities';
 
 
 

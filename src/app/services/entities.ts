@@ -10,25 +10,27 @@ function createClass(classs: any, interfacee: any) { // test this please
 list of UserGroup
 
 Features:
-- Create UserGroup (For Admin)
+- Create UserGroup (For Admin) // yes // need test
 - Edit UserGroup (For Admin)
-- Delete UserGroup (For Admin) (After that GroupId as field in UserInfo's must be deleted)
+- Delete UserGroup // yes // need test (For Admin) (After that GroupId as field in UserInfo's must be deleted)
 */
 
-export class UserGroup {
-  id: number;
+export interface IUserGroup {
   name: string;
   description: string;
+  deleted: boolean;
 }
+
+export type UserGroup = IUserGroup & { id: number; };
 
 /*
 list of UserInfo
 
 Features:
-- Create UserInfo (related to Auth DB) (only UserInfo with new GroupName ot with existing GroupId)
-- Approve UserInfo (For Admin)
+- Create UserInfo (related to Auth DB) (only UserInfo with new GroupName ot with existing GroupId) // yes // need test
+- Approve UserInfo (For Admin) // yes // need test
 - Edit UserInfo (For Admin)
-- Delete UserInfo (sync with deleting from Auth DB) (For Admin)
+- Delete UserInfo (sync with deleting from Auth DB) (For Admin) // yes // need test
   Features for fields
   - Add test to available tests
   - Add Course to courses
@@ -46,10 +48,15 @@ interface MainUserInfo {
   photoUrl?: string;
   approved: boolean;
   courseIds: number[];
-  availableTestIds: number[];
+  availableTest: AvailableTest[];
   tests: TakenTest[];
   userGroupId: number;
   deleted: boolean;
+}
+
+export interface AvailableTest {
+  subjectId: number;
+  testId: number;
 }
 
 export interface ITakenTest {
@@ -59,6 +66,7 @@ export interface ITakenTest {
 
 export class TakenTest {
   id: number;
+  subjectId: number;
   mark: number;
   date: Date;
   deleted: boolean;
@@ -122,7 +130,7 @@ list of Subjects
       )
       - Delete Task
     )
-    - Delete Test3
+    - Delete Test
 
     - Create Course (Course it's some Test with different orderBy index)
     - Edit Course
@@ -146,13 +154,15 @@ export interface Course {
 }
 
 export interface Test {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   uidOfAthor: string;
   positiveMark: number;
   tasks: Task[];
+  subjectId: number;
   time: number; // in minutes
+  deleted: boolean;
 }
 
 export interface TaskOption {
