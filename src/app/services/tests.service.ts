@@ -8,35 +8,6 @@ import { last } from '@angular/router/src/utils/collection';
 
 export const unsignedTaskTestId = 9999;
 
-export enum TaakTypeEnum {
-  checkbox = 'checkbox',
-  radio = 'radio'
-}
-export type TaskType = TaakTypeEnum.checkbox | TaakTypeEnum.radio;
-
-export class TaskOption {
-  id: number;
-  description: string;
-}
-
-export class Task {
-  id: number;
-  description: string;
-  testId: number;
-  options: TaskOption[];
-  typeTask: TaskType;
-  correctOptionIds: number[];
-}
-
-export interface Test {
-  id: number;
-  name: string;
-  description: string;
-  uidOfAthor: string;
-  tasks: Task[];
-  time: number;
-}
-
 @Injectable()
 export class TestsService {
   tests: Test[];

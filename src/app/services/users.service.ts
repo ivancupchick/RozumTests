@@ -2,68 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot, AngularFireList } from '@angular/fire/database';
 import { Observable, of } from 'rxjs';
 import { take, map, catchError } from 'rxjs/operators';
+import { UserInfo, IUserInfo } from './entities';
 
-export interface Mark {
-  idTest: number;
-  markValue: number;
-}
 
-export interface TakenTest {
-  id: number;
-  marks: Mark[];
-  date: string; // TODO: refactor this please, create converter for db and for UI please
-}
-
-export interface IUserInfo {
-  uid?: string;
-  id?: number;
-  role?: 'User' | 'Admin';
-  name?: string;
-  email?: string;
-  photoUrl?: string;
-  approved?: boolean;
-  tests?: TakenTest[];
-}
-
-export class UserInfo implements IUserInfo {
-  public uid: string;
-  public id: number;
-  public role: 'User' | 'Admin';
-  public name: string;
-  public email: string;
-  public photoUrl: string;
-  public approved: boolean;
-  public tests: TakenTest[];
-
-  constructor(options: IUserInfo) {
-    this.uid = options.uid || '';
-    this.id = options.id || 1;
-    this.role = options.role || 'User';
-    this.name = options.name || 'Anonymous';
-    this.email = options.email || '';
-    this.photoUrl = options.photoUrl || 'https://material.angular.io/assets/img/examples/shiba1.jpg';
-    this.approved = options.approved || false;
-    this.tests = options.tests || [];
-  }
-
-  approveUser() {
-    this.approved = true;
-  }
-
-  takeTest(newTest: TakenTest) {
-    const existingTest =  this.tests.find(test => test.id === newTest.id);
-
-    if (existingTest) {
-      existingTest.marks.push(newTest.marks[0]);
-    } else {
-      this.tests.push(newTest);
-    }
-  }
-
-  deleteTest(id: number) {
-    this.tests = this.tests.filter(test => test.id !== id);
-  }
-}
 
 @Injectable()
 export class UsersService {
