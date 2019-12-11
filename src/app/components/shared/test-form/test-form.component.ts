@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TaskOption, Task, Test, unsignedTaskTestId, TaskType, TaakTypeEnum } from 'src/app/services/tests.service';
+import { Task, Test, TaskOption } from 'src/app/services/entities';
 
 export function findPopertyWithValue(objec: any, prop: string, value: string | number) {
   if (objec && objec.hasOwnProperty(prop) && objec[prop] === value) {
@@ -28,6 +28,7 @@ export interface NewOption extends TaskOption {
 
 export interface NewTask extends Task {
   options: NewOption[];
+  typeTask: 'checkbox';
 }
 
 export interface NewTest extends Test {
@@ -49,18 +50,20 @@ export class TestFormComponent implements OnInit {
       this.test = {
         id: null,
         name: '',
+        subjectId: 0, // need add field for subject
+        positiveMark: 1,
         description: '',
         uidOfAthor: '',
         tasks: [{
           id: 0,
           description: '',
-          testId: null,
+          // testId: null,
           options: [{
             id: 0,
             description: '',
             checked: false
           }],
-          typeTask: TaakTypeEnum.checkbox,
+          typeTask: 'checkbox',
           correctOptionIds: []
         }],
         time: 0
@@ -109,9 +112,9 @@ export class TestFormComponent implements OnInit {
 
     newTest.tasks.forEach(task => {
       if (task.correctOptionIds.length > 1) {
-        task.typeTask = TaakTypeEnum.checkbox;
+        // task.typeTask = TaakTypeEnum.checkbox;
       } else if (task.correctOptionIds.length === 1) {
-        task.typeTask = TaakTypeEnum.radio;
+        // task.typeTask = TaakTypeEnum.radio;
       }
     });
 
@@ -124,13 +127,13 @@ export class TestFormComponent implements OnInit {
     this.test.tasks.push({
       id: this.test.tasks.length,
       description: '',
-      testId: null,
+      // testId: null,
       options: [{
         id: 0,
         description: '',
         checked: false
       }],
-      typeTask: TaakTypeEnum.checkbox,
+      typeTask: 'checkbox',
       correctOptionIds: []
     }); //  [taskIndex].options.push({ id: this.test.tasks[taskIndex].options.length } as NewOption);
   }

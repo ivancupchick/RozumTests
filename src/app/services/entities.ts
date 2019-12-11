@@ -51,7 +51,7 @@ interface MainUserInfo {
   availableTest: AvailableTest[];
   tests: TakenTest[];
   userGroupId: number;
-  deleted: boolean;
+  deleted?: boolean;
 }
 
 export interface AvailableTest {
@@ -162,7 +162,7 @@ export interface Test {
   tasks: Task[];
   subjectId: number;
   time: number; // in minutes
-  deleted: boolean;
+  deleted?: boolean;
 }
 
 export interface TaskOption {

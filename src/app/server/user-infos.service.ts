@@ -25,10 +25,10 @@ export class UserInfosService extends BaseListService<UserInfo, UserInfo> {
     );
   }
 
-  public addAvailableTest(id: number, testId: number) {
+  public addAvailableTest(id: number, subjectId: number, testId: number) { // refactir that please
     return this.modifyListItem(id, user => {
-      if (!user.availableTestIds.find(avId => avId === id)) {
-        user.availableTestIds.push(testId);
+      if (!user.availableTest.find(avId => avId.testId === testId && avId.subjectId === subjectId)) {
+        user.availableTest.push({ testId, subjectId });
       }
 
       return user;

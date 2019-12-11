@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Task, TaskOption, TestsService, Test } from 'src/app/services/tests.service';
-import { FormGroup } from '@angular/forms';
 import { TestFormComponent } from '../shared/test-form/test-form.component';
 import { Router } from '@angular/router';
+import { SubjectsService } from 'src/app/server/subjects.service';
+import { Test } from 'src/app/services/entities';
 
 @Component({
   selector: 'app-create-test',
@@ -15,7 +15,7 @@ export class CreateTestComponent implements OnInit {
 
   @ViewChild(TestFormComponent) form: TestFormComponent;
 
-  constructor(private testsService: TestsService, private router: Router) { }
+  constructor(private subjectsService: SubjectsService, private router: Router) { }
 
   ngOnInit() {
     // this.tasks = [];
@@ -25,7 +25,7 @@ export class CreateTestComponent implements OnInit {
     if (this.form.isFormValid()) {
       const test: Test = this.form.getTest(); // add type please
 
-      this.testsService.createTest(test)
+      this.subjectsService.createTest(test)
         .subscribe(res => {
           if (res) {
             alert('Тест успешно добавлен');

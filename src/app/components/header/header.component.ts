@@ -5,7 +5,7 @@ import { ModalService } from 'src/app/modal/modal.service';
 import { LoginComponent } from '../modals/login/login.component';
 import { ModalContainerComponent } from 'src/app/modal/modal-container/modal-container.component';
 import { SignUpComponent } from '../modals/sign-up/sign-up.component';
-import { UserInfo } from 'src/app/services/users.service';
+import { UserInfo } from 'src/app/services/entities';
 
 @Component({
   selector: 'app-header',

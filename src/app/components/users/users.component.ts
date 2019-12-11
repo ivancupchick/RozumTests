@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserInfo, UsersService } from 'src/app/services/users.service';
+import { UserInfosService } from 'src/app/server/user-infos.service';
+import { UserInfo } from 'src/app/services/entities';
 
 @Component({
   selector: 'app-users',
@@ -9,10 +10,10 @@ import { UserInfo, UsersService } from 'src/app/services/users.service';
 export class UsersComponent implements OnInit {
   users: UserInfo[];
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UserInfosService) { }
 
   ngOnInit() {
-    this.usersService.getUsers()
+    this.usersService.getList()
       .subscribe((res: UserInfo[]) => {
         this.users = res.filter(user => !user.approved);
       });

@@ -16,11 +16,11 @@ export class BaseListService<TMainClass, TUIClass> {
 
   protected getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
 
-  protected getList(): Observable<TMainClass[]> {
+  public getList(): Observable<TMainClass[]> { // convert to protect and call in child
     return this.list ? of(this.list) : this.listRef.valueChanges().pipe( take(1) );
   }
 
-  protected createListItem(uiClass: TUIClass): Observable<boolean> { // true - success, false - error
+  public createListItem(uiClass: TUIClass): Observable<boolean> { // true - success, false - error / convert to protect and call in child
     return Observable.create(obs => {
       const newGroup = this.getDBDataFromUI(uiClass, this.list);
 

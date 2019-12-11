@@ -1,17 +1,18 @@
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { TestsService, Task } from 'src/app/services/tests.service';
-import { UsersService } from 'src/app/services/users.service';
+import { ActivatedRoute } from '@angular/router';
 import { timer } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { take } from 'rxjs/operators';
+import { SubjectsService } from 'src/app/server/subjects.service';
+import { Task } from 'src/app/services/entities';
+import { UserInfosService } from 'src/app/server/user-infos.service';
 
 @Component({
   selector: 'app-take-the-test',
   templateUrl: './take-the-test.component.html',
   styleUrls: ['./take-the-test.component.sass']
 })
-export class TakeTheTestComponent implements OnInit {
+export class TakeTheTestComponent implements OnInit { // refactor this class please
   testId = 0;
   tasks: Task[] = [];
 
@@ -20,9 +21,9 @@ export class TakeTheTestComponent implements OnInit {
 
 
   constructor(
-    private testsService: TestsService,
+    private subjectsService: SubjectsService,
     private activeRouter: ActivatedRoute,
-    private usersService: UsersService,
+    private usersService: UserInfosService,
     private renderer: Renderer2,
     private elem: ElementRef,
     private authService: AuthService
@@ -33,7 +34,7 @@ export class TakeTheTestComponent implements OnInit {
       this.testId = res.id;
     });
 
-    this.testsService.getTests()
+    this.subjectsService.getTests(this.authService.userInfo.availableTest)
       .subscribe(res => {
         const curTest = res.find(test => `${test.id}` === `${this.testId}`) || null;
 
@@ -91,9 +92,9 @@ export class TakeTheTestComponent implements OnInit {
       });
     });
 
-    const uid = this.authService.getCurrentUserInfo().uid;
+    const id = this.authService.getCurrentUserInfo().id;
 
-    this.usersService.markTest(uid, this.testId, mark)
+    this.usersService.takeTest(id, this.testId, mark)
       .pipe( take(1) )
       .subscribe((res: boolean) => {
         if (res) {

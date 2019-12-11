@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService, UserInfo } from 'src/app/services/users.service';
+import { UserInfosService } from 'src/app/server/user-infos.service';
+import { UserInfo } from 'src/app/services/entities';
 
 @Component({
   selector: 'app-new-users',
@@ -9,25 +10,25 @@ import { UsersService, UserInfo } from 'src/app/services/users.service';
 export class NewUsersComponent implements OnInit {
   users: UserInfo[];
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UserInfosService) { }
 
   ngOnInit() {
-    this.usersService.getUsers()
+    this.usersService.getList()
       .subscribe((res: UserInfo[]) => {
         this.users = res.filter(user => !user.approved);
       });
   }
 
-  approveUser(uid: string) {
-    console.log('approve', uid);
+  approveUser(id: number) { // create support UID
+    console.log('approve', id);
 
-    this.usersService.approveUser(uid)
+    this.usersService.approveUser(id)
       .subscribe((res: boolean) => {
         console.log(res);
       });
   }
 
-  delteUser(uid: string) {
-    console.log('delete', uid);
+  delteUser(id: number) { // create support UID
+    console.log('delete', id);
   }
 }

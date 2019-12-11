@@ -4,9 +4,10 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireAuth} from '@angular/fire/auth';
 import { User, auth } from 'firebase/app';
 
-import { Observable, from, zip } from 'rxjs';
-import { UserInfo, UsersService } from './users.service';
-import { map, debounce, debounceTime, take } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { UserInfo } from './entities';
+import { UserInfosService } from '../server/user-infos.service';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
   userInfo: UserInfo;
   usersLength = 1;
 
-  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private usersService: UsersService) {
+  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private usersService: UserInfosService) {
     this.linkUsers = db.list('users');
     this.user = afAuth.authState;
 
@@ -49,7 +50,7 @@ export class AuthService {
     return Observable.create(obs => {
       this.user
         .subscribe(user => {
-          this.usersService.getUsers()
+          this.usersService.getList()
             .pipe( take(1) )
             .subscribe((users: UserInfo[]) => {
               const userInfo = user ? users.find(userObs => userObs.uid === user.uid) : null;
@@ -67,22 +68,24 @@ export class AuthService {
       }
     });
     if (count) {
-      const user = new UserInfo({
-        uid: credential.user.uid,
-        id: this.usersLength,
-        name: credential.user.displayName || name,
-        email: credential.user.email,
-        photoUrl: credential.user.photoURL,
-      });
+      // refactor that, implement and call server request please
 
-      this.linkUsers
-        .push(user)
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          console.log('end');
-        });
+      // const user: UserInfo = {
+      //   uid: credential.user.uid,
+      //   id: this.usersLength,
+      //   name: credential.user.displayName || name,
+      //   email: credential.user.email,
+      //   photoUrl: credential.user.photoURL,
+      // };
+
+      // this.linkUsers
+      //   .push(user)
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .finally(() => {
+      //     console.log('end');
+      //   });
     }
   }
 
