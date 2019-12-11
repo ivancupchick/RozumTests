@@ -1,6 +1,7 @@
 <div>
   <button routerLink="">Home</button>
   <button *ngIf="authService.user | async" routerLink="tests">Tests</button>
+  <button *ngIf="authService.user | async" routerLink="subjects">Subjects</button>
   <!-- insert routerLink to test -->
 </div>
 <ng-template #isNotAuthorized>

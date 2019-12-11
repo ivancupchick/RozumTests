@@ -25,6 +25,8 @@ import { CreateTestComponent } from './components/create-test/create-test.compon
 import { TestFormComponent } from './components/shared/test-form/test-form.component';
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 import { UsersComponent } from './components/users/users.component';
+import { SubjectsComponent } from './components/subjects/subjects.component';
+import { NewSubjectComponent } from './components/new-subject/new-subject.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { UsersComponent } from './components/users/users.component';
     CreateTestComponent,
     TestFormComponent,
     TakeTheTestComponent,
-    UsersComponent
+    UsersComponent,
+    SubjectsComponent,
+    NewSubjectComponent
   ],
   imports: [
     BrowserModule,

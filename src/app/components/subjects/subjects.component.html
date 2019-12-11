@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="toolbar">
+    <button routerLink="../new-subject">New Subject</button>
+    <button disabled>Edit Subject</button>
+    <button disabled>Delete Subject</button>
+  </div>
+
+  <div class="container-subjects">
+    <div class="container-subject" *ngFor="let subject of subjects">
+      <p>{{subject.name}}</p>
+      <p>{{subject.description}}</p>
+      <button (click)="createTest(subject)">Создать тест</button>
+      <button *ngIf="true" disabled>Редактировать</button>
+      <button *ngIf="true" (click)="deleteTest(subject.id)">Удалить</button>
+    </div>
+  </div>
+  <!-- <div class="container-buttons"></div>
+  <div *ngFor="let user of users" class="user-row">
+    <span>{{user.name}} - {{user.email}}</span>
+    <span>
+      <button (click)="approveUser(user.uid)">Approve User</button>
+      <button (click)="delteUser(user.uid)" disabled>Delete User</button>
+    </span>
+  </div> -->
+</div>
