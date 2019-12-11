@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseListService } from './base-list.service';
 import { Subject, Test, AvailableTest } from '../services/entities';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database/database';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,10 @@ export class SubjectsService extends BaseListService<Subject, Subject> {
   public getTests(availableTests: AvailableTest[]): Observable<Test[]> {
     return Observable.create(obs => {
       const tests: Test[] = [];
+
+      if (!this.list) {
+        return of(tests);
+      }
 
       this.list.forEach(subject => {
         subject.tests.forEach(subjectTest => {

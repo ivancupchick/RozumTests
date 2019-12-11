@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SubjectsService } from 'src/app/server/subjects.service';
 import { Test } from 'src/app/services/entities';
 import { AuthService } from 'src/app/services/auth.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tests',
@@ -15,9 +16,13 @@ export class TestsComponent implements OnInit {
   constructor(private subjectsService: SubjectsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
-    this.subjectsService.getTests(this.authService.userInfo.availableTest)
-      .subscribe((res: Test[]) => {
-        this.tests = res || [];
+    this.authService.getUserInfo()
+      .pipe( take(1) )
+      .subscribe(res => {
+        this.subjectsService.getTests(res.availableTest)
+          .subscribe((tests: Test[]) => {
+            this.tests = tests || [];
+          });
       });
   }
 

@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireList, AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from '@angular/fire/database/database';
 import { Observable, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
 @Injectable()
-export class BaseListService<TMainClass, TUIClass> {
+export class BaseListService<TMainClass, TUIClass> implements OnInit {
   protected list: TMainClass[];
   protected listRef: AngularFireList<TMainClass>; // = this.db.list('userGroups');
 
-  constructor(protected db: AngularFireDatabase) {
-    this.listRef.valueChanges().subscribe((res: (TMainClass & { deleted: boolean })[]) => {
-      this.list = res.filter(listItem => !listItem.deleted);
-    });
-  }
+  constructor(protected db: AngularFireDatabase) { }
 
   protected getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
+
+  ngOnInit() {
+    if (this.listRef) {
+      this.listRef.valueChanges().subscribe((res: (TMainClass & { deleted: boolean })[]) => {
+        this.list = res.filter(listItem => !listItem.deleted);
+      });
+    }
+  }
 
   public getList(): Observable<TMainClass[]> { // convert to protect and call in child
     return this.list ? of(this.list) : this.listRef.valueChanges().pipe( take(1) );
