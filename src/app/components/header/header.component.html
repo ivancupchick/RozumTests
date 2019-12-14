@@ -1,19 +1,19 @@
 <div>
   <button routerLink="">Home</button>
-  <button *ngIf="authService.user | async" routerLink="tests">Tests</button>
-  <button *ngIf="authService.user | async" routerLink="subjects">Subjects</button>
+  <button *ngIf="authService.user | async" routerLink="tests">Тесты</button>
+  <button *ngIf="authService.user | async" routerLink="subjects">Предметы</button>
   <!-- insert routerLink to test -->
 </div>
 <ng-template #isNotAuthorized>
   <div>
-    <button (click)="openLogin();" mat-raised-button>Log in</button>
-    <button (click)="openSignup();" mat-raised-button>Sign up</button>
+    <button (click)="openLogin();" mat-raised-button>Войти</button>
+    <button (click)="openSignup();" mat-raised-button>Зарегистрироваться</button>
   </div>
 </ng-template>
 <div *ngIf="authService.user | async else isNotAuthorized">
-    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="new-users">New Users</button>
-    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="users">Users</button>
-    <button *ngIf="authService.userId" (click)="logOut()">Log Out</button>
+    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="new-users">Новые пользователи</button>
+    <button *ngIf="authService.userId && userInfo && userInfo.role === 'Admin'" routerLink="users">Пользователи</button>
+    <button *ngIf="authService.userId" (click)="logOut()">Выйти</button>
     <!-- insert routerLink to test -->
     <!-- <button mat-button [matMenuTriggerFor]="menu">{{ (authService.user | async)?.email }}</button> -->
     <!-- <mat-menu #menu="matMenu">

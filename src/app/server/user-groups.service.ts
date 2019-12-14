@@ -14,6 +14,6 @@ export class UserGroupsService extends BaseListService<UserGroup, IUserGroup> { 
   }
 
   protected getDBDataFromUI = (uiClass: IUserGroup, listWithValues: UserGroup[]): UserGroup => {
-    return Object.assign({}, uiClass, { id: listWithValues.length || 1 });
+    return Object.assign({}, uiClass, { id: listWithValues ? listWithValues.length || 0 : 0 });
   }
 }

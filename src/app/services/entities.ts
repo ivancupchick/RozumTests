@@ -19,6 +19,7 @@ export interface IUserGroup {
   name: string;
   description: string;
   deleted: boolean;
+  approve: boolean;
 }
 
 export type UserGroup = IUserGroup & { id: number; };
@@ -37,11 +38,12 @@ Features:
   - Take one of available tests
 */
 
-export type UserInfo = (MainUserInfo & { userGroupId: number; }) | (MainUserInfo & { userGroupName: string; });
+export type IUserInfo = (MainUserInfo & { userGroupId: number; }) | (MainUserInfo & { userGroupName: string; });
+
+export type UserInfo = ((MainUserInfo & { userGroupId: number; }) | (MainUserInfo & { userGroupName: string; })) & { id: number };
 
 interface MainUserInfo {
   uid: string;
-  id: number;
   role: 'User' | 'Admin';
   name: string;
   email?: string;
@@ -50,7 +52,6 @@ interface MainUserInfo {
   courseIds: number[];
   availableTest: AvailableTest[];
   tests: TakenTest[];
-  userGroupId: number;
   deleted?: boolean;
 }
 

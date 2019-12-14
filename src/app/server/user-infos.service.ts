@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BaseListService } from './base-list.service';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database/database';
-import { UserInfo, TakenTest } from '../services/entities';
+import { UserInfo, TakenTest, IUserInfo } from '../services/entities';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserInfosService extends BaseListService<UserInfo, UserInfo> {
+export class UserInfosService extends BaseListService<UserInfo, IUserInfo> {
   protected listRef: AngularFireList<UserInfo> = this.db.list('users');
 
   constructor(db: AngularFireDatabase) {
     super(db);
   }
 
-  protected getDBDataFromUI = (uiClass: UserInfo, listWithValues: UserInfo[]): UserInfo => {
-    return Object.assign({}, uiClass, { id: listWithValues.length || 1 });
+  protected getDBDataFromUI = (uiClass: IUserInfo, listWithValues: UserInfo[]): UserInfo => {
+    return Object.assign({}, uiClass, { id: listWithValues ? listWithValues.length || 0 : 0 });
   }
 
   public approveUser(id: number) { // create support for uid: string
@@ -50,5 +50,11 @@ export class UserInfosService extends BaseListService<UserInfo, UserInfo> {
 
       return user;
     });
+  }
+
+  createUser(user: IUserInfo) {
+    const newUser = this.getDBDataFromUI(user, this.list);
+
+    this.createListItem(newUser);
   }
 }

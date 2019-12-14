@@ -1,26 +1,35 @@
-<form #formData='ngForm'>
-  <p>
-    <label for="name">Name</label>
-    <input placeholder="Name..." [(ngModel)]="name" name="name" required>
-  </p>
-  <p>
-    <!-- <mat-form-field appearance="outline"> -->
-      <label for="email">E-mail</label>
-      <input placeholder="Email address..." [(ngModel)]="email" name="email" required>
-      <!-- <mat-hint>Will be your email</mat-hint> -->
-    <!-- </mat-form-field> -->
-  </p>
-  <p>
-    <!-- <mat-form-field appearance="outline"> -->
-      <label for="password">Password</label>
-      <input type="password" placeholder="Password..." [(ngModel)]="password" name="password" required>
-      <!-- <mat-hint>Will be your password</mat-hint> -->
-    <!-- </mat-form-field> -->
-  </p>
+<div class="header">
+  Регистрация
+</div>
 
-  <button type="button" (click)="hide()">Cancel</button>
-  <button type="button" [disabled]="!formData.valid" (click)="onSubmit(formData)">Create account with Email</button>
+<form #formData='ngForm'>
+  <label for="name">ФИО</label>
+  <input autocomplete="off" placeholder="Имя Фамилия" [(ngModel)]="name" name="name" id="name" required>
+
+  <label for="email">E-mail</label>
+  <input autocomplete="off" placeholder="Email адрес..." [(ngModel)]="email" name="email" id="email" required>
+
+  <label for="password">Пароль</label>
+  <input autocomplete="off" type="password" placeholder="Введите пароль..." [(ngModel)]="password" name="password" id="password" required>
+
+  <label for="group">Группа</label>
+  <input autocomplete="off" #groupInput placeholder="Ваша группа..." [(ngModel)]="group" name="group" id="group" required>
+
+  <div class="anchor-groups">
+    <div *ngIf="isVisibleGroup" class="available-groups">
+      <div *ngFor="let group of availableGroups" class="group" (click)="setGroupValue(group)">
+        {{group.name}}
+      </div>
+    </div>
+  </div>
 </form>
+
+<div class="buttons">
+  <button type="button" (click)="hide()">Отмена</button>
+  <button type="button" [disabled]="!formData.valid" (click)="onSubmit(formData)">Зарегистрироваться</button>
+</div>
+
+
 
 <!-- <button  mat-raised-button (click)="signupFacebook()" color="primary" >Sign up With Facebook
   <svg style="width:24px;height:24px" viewBox="0 0 24 24">

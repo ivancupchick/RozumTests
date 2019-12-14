@@ -4,10 +4,11 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireAuth} from '@angular/fire/auth';
 import { User, auth } from 'firebase/app';
 
-import { Observable, from } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { UserInfo } from './entities';
+import { Observable, from, of } from 'rxjs';
+import { take, tap, concatMap, catchError } from 'rxjs/operators';
+import { UserInfo, UserGroup, IUserInfo, IUserGroup } from './entities';
 import { UserInfosService } from '../server/user-infos.service';
+import { UserGroupsService } from '../server/user-groups.service';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
   userInfo: UserInfo;
   usersLength = 1;
 
-  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private usersService: UserInfosService) {
+  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private usersService: UserInfosService,
+              private userGroupsService: UserGroupsService) {
     this.linkUsers = db.list('users');
     this.user = afAuth.authState;
 
@@ -60,23 +62,58 @@ export class AuthService {
     });
   }
 
-  private pushUserInfoToDB(credential: auth.UserCredential, name: string) { // users: UserInfo[]
-    let count = true;
-    this.users.forEach( (user: UserInfo) => {
-      if (user.uid === credential.user.uid) {
-        count = false;
-      }
-    });
-    if (count) {
-      // refactor that, implement and call server request please
+  private pushUserInfoToDB(credential: auth.UserCredential,
+                           name: string,
+                           group: string | UserGroup): Observable<boolean> { // users: UserInfo[]
+    let count = true; // we can delete this
+    this.users.forEach( (user: UserInfo) => { // we can delete this
+      if (user.uid === credential.user.uid) { // we can delete this
+        count = false; // we can delete this
+      } // we can delete this
+    }); // we can delete this
+    if (count) { // we can delete this
+      const user: IUserInfo = {
+        uid: credential.user.uid,
+        name: credential.user.displayName || name,
+        email: credential.user.email,
+        photoUrl: credential.user.photoURL,
+        role: 'User',
+        approved: false,
+        courseIds: [],
+        availableTest: [],
+        tests: [],
+        userGroupId: (typeof group !== 'string') ? group.id : undefined,
+        userGroupName: typeof group === 'string' ? group : undefined,
+        deleted: false
+      };
 
-      // const user: UserInfo = {
-      //   uid: credential.user.uid,
-      //   id: this.usersLength,
-      //   name: credential.user.displayName || name,
-      //   email: credential.user.email,
-      //   photoUrl: credential.user.photoURL,
-      // };
+      if ((user as any).userGroupId === undefined) {
+        delete (user as any).userGroupId;
+      }
+
+      if ((user as any).userGroupName === undefined) {
+        delete (user as any).userGroupName;
+      }
+
+      if (typeof group === 'string') {
+        const newGroup: IUserGroup = {
+          name: group,
+          description: ' ',
+          deleted: false,
+          approve: true // switch to false
+        };
+
+        this.userGroupsService.createListItem(newGroup).subscribe();
+      }
+
+      return this.usersService.createListItem(user)
+        .pipe(
+          tap((res => {
+            if (res) {
+              console.log('success');
+            }
+          }))
+        );
 
       // this.linkUsers
       //   .push(user)
@@ -117,14 +154,13 @@ export class AuthService {
   //   );
   // }
 
-  public createUserWithEmail(email: string, password: string, name: string) {
-    from(this.afAuth.auth.createUserWithEmailAndPassword(email, password))
-      .subscribe(
-        (credential) => {
-          this.pushUserInfoToDB(credential, name);
-        }, (error) => {
-          throw new Error(error);
-        }
+  public createUserWithEmail(options: { email: string, password: string, name: string }, group: string | UserGroup): Observable<boolean> {
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(options.email, options.password))
+      .pipe(
+        concatMap((credential) => {
+          return this.pushUserInfoToDB(credential, name, group);
+        }),
+        catchError((error) => of(error))
       );
   }
 
