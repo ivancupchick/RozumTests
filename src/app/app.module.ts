@@ -27,6 +27,8 @@ import { TakeTheTestComponent } from './components/take-the-test/take-the-test.c
 import { UsersComponent } from './components/users/users.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
 import { NewSubjectComponent } from './components/new-subject/new-subject.component';
+import { WindowModule } from './window/window.module';
+import { WindowsService } from './services/windows.service';
 
 @NgModule({
   declarations: [
@@ -50,14 +52,16 @@ import { NewSubjectComponent } from './components/new-subject/new-subject.compon
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     FormsModule,
-    ModalModule
+    ModalModule,
+    WindowModule
   ],
   providers: [
     AuthService,
     ModalService,
     UsersService,
     TasksService,
-    TestsService
+    TestsService,
+    WindowsService
   ],
   entryComponents: [
     LoginComponent,

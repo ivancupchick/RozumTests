@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
-import { Observable, of } from 'rxjs';
-import { take, catchError, map } from 'rxjs/operators';
 
-const unsignedTaskTestId = 9999;
+// Dont's use this please
 
 // export class TaskOption {
 //   constructor(
@@ -27,7 +24,7 @@ export class TasksService {
   // tasks: Task[];
   // linkTasks: AngularFireList<Task> = this.db.list('tasks');
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor() { } // private db: AngularFireDatabase
 
   // public getTasks(force = false): Observable<Task[]> {
   //   if (this.tasks && this.tasks.length > 0 && !force) {

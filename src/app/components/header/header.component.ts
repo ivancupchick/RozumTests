@@ -6,6 +6,7 @@ import { LoginComponent } from '../modals/login/login.component';
 import { ModalContainerComponent } from 'src/app/modal/modal-container/modal-container.component';
 import { SignUpComponent } from '../modals/sign-up/sign-up.component';
 import { UserInfo } from 'src/app/services/entities';
+import { WindowsService } from 'src/app/services/windows.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,10 @@ export class HeaderComponent implements OnInit {
   userId: number;
   userInfo: UserInfo;
 
-  constructor(private router: Router, public authService: AuthService, private modalService: ModalService) {
+  constructor(private router: Router,
+              public authService: AuthService,
+              private modalService: ModalService,
+              private windowsService: WindowsService) {
     this.userInfo = this.authService.getCurrentUserInfo();
 
     console.log(this.userInfo);
@@ -35,9 +39,15 @@ export class HeaderComponent implements OnInit {
 
   openLogin() {
     this.modalService.open(LoginComponent, null, { hideOnBackdropClick: true, containerType: ModalContainerComponent });
+    // this.windowsService.showWindow(LoginComponent, (instance, close) => {
+    //   // instance.hide.
+    // });
   }
   openSignup() {
     this.modalService.open(SignUpComponent, null, { hideOnBackdropClick: true, containerType: ModalContainerComponent });
+    // this.windowsService.showWindow(SignUpComponent, (instance, close) => {
+    //   // instance.hide.
+    // });
   }
 
   linkToProfile() {

@@ -3,8 +3,7 @@ import { WindowComponent } from '../window.component';
 
 @Component({
   selector: 'app-window-actions',
-  template: '<ng-content></ng-content>',
-  styleUrls: ['./window-actions.component.sass']
+  template: '<ng-content></ng-content>'
 })
 export class WindowActionsComponent implements OnInit {
 

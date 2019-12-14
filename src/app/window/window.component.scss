@@ -1,4 +1,5 @@
-// @import 'shared';
+@import 'shared';
+
 // @import 'animations';
 
 .modal-bg-overlay {
@@ -108,7 +109,8 @@ modal {
       height: auto;
       display: block;
       cursor: default;
-      @extend .scroll-y;
+
+      // @extend .scroll-y;
     }
 
     modal-actions {

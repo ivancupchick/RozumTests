@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output, Inject, Renderer2, NgZone, ChangeDetectorRef, ViewChild, ElementRef, HostListener, AfterViewInit, ViewEncapsulation, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Inject, Renderer2,
+  NgZone, ChangeDetectorRef, ViewChild, ElementRef, HostListener, AfterViewInit,
+  ViewEncapsulation, OnChanges, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { appearDisappearNotCentered, appearDisappearCentered, appearDisappear } from './window.utils';

@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireAction, DatabaseSnapshot } from '@angular/fire/database';
-import { Observable, of } from 'rxjs';
-import { take, catchError, map } from 'rxjs/operators';
-import { ModalService } from '../modal/modal.service';
-import { AuthService } from './auth.service';
-import { last } from '@angular/router/src/utils/collection';
 
-export const unsignedTaskTestId = 9999;
+// plese dont use this service
 
 @Injectable()
 export class TestsService {
