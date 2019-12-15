@@ -1,7 +1,7 @@
 <div class="container">
-  <app-test-form></app-test-form>
   <div class="buttons">
-    <button type="button" routerLink="tests">Cancel</button>
-    <button type="button" (click)="createTest()">Create Test</button>
+    <button type="button" class="cancel" routerLink="tests">Cancel</button>
+    <button type="button" class="submit" (click)="createTest()">Create Test</button>
   </div>
+  <app-test-form></app-test-form>
 </div>

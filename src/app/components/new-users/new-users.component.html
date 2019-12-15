@@ -3,8 +3,8 @@
   <div *ngFor="let user of users" class="user-row">
     <span>{{user.name}} - {{user.email}}</span>
     <span>
-      <button (click)="approveUser(user.id)">Approve User</button>
-      <button (click)="delteUser(user.id)" disabled>Delete User</button>
+      <button class="submit" (click)="approveUser(user.id)">Approve User</button>
+      <button class="cancel" (click)="delteUser(user.id)" disabled>Delete User</button>
     </span>
   </div>
 </div>
