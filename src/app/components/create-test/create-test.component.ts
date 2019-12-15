@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TestFormComponent } from '../shared/test-form/test-form.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SubjectsService } from 'src/app/server/subjects.service';
 import { Test } from 'src/app/services/entities';
 
@@ -13,17 +13,22 @@ export class CreateTestComponent implements OnInit {
   // tasks: Task[] = [];
   // newOptions: NewOption[] = [];
 
+  subjectId: number;
+
   @ViewChild(TestFormComponent) form: TestFormComponent;
 
-  constructor(private subjectsService: SubjectsService, private router: Router) { }
+  constructor(private subjectsService: SubjectsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(res => {
+      this.subjectId = typeof res.id === 'string' ? +res.id || 0 : res.id;
+    });
     // this.tasks = [];
   }
 
   createTest() {
     if (this.form.isFormValid()) {
-      const test: Test = this.form.getTest(); // add type please
+      const test: Test = this.form.getTest();
 
       this.subjectsService.createTest(test)
         .subscribe(res => {
@@ -32,11 +37,11 @@ export class CreateTestComponent implements OnInit {
 
             this.router.navigateByUrl('');
           } else {
-            alert('К сожелению что-то пошло не так');
+            // alert('К сожелению что-то пошло не так');
           }
         }, (error) => {
-          alert('К сожелению что-то пошло не так');
-          alert(error);
+          // alert('К сожелению что-то пошло не так');
+          console.log(error);
         });
     } else {
       alert('Вы не ввели все поля');

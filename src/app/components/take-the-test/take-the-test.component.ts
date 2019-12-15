@@ -34,7 +34,7 @@ export class TakeTheTestComponent implements OnInit { // refactor this class ple
       this.testId = res.id;
     });
 
-    this.subjectsService.getTests(this.authService.userInfo.availableTest)
+    this.subjectsService.getTests(this.authService.userInfo.availableTest, 'Admin')
       .subscribe(res => {
         const curTest = res.find(test => `${test.id}` === `${this.testId}`) || null;
 

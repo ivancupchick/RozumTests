@@ -29,6 +29,7 @@ import { SubjectsComponent } from './components/subjects/subjects.component';
 import { NewSubjectComponent } from './components/modals/new-subject/new-subject.component';
 import { WindowModule } from './window/window.module';
 import { WindowsService } from './services/windows.service';
+import { EditTestComponent } from './components/edit-test/edit-test.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { WindowsService } from './services/windows.service';
     TakeTheTestComponent,
     UsersComponent,
     SubjectsComponent,
-    NewSubjectComponent
+    NewSubjectComponent,
+    EditTestComponent
   ],
   imports: [
     BrowserModule,

@@ -4,21 +4,29 @@ import { Observable, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
 @Injectable() // may delete this?
-export abstract class BaseListService<TMainClass, TUIClass> implements OnInit {
+export class BaseListService<TMainClass, TUIClass>  { // implements OnInit
   protected list: TMainClass[];
-  protected abstract listRef: AngularFireList<TMainClass>; // = this.db.list('userGroups');
+  protected listRef: AngularFireList<TMainClass>; // = this.db.list('userGroups');
 
-  constructor(protected db: AngularFireDatabase) { }
-
-  protected abstract getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
-
-  ngOnInit() {
+  constructor(protected db: AngularFireDatabase) {
     if (this.listRef) {
       this.listRef.valueChanges().subscribe((res: (TMainClass & { deleted: boolean })[]) => {
+        console.log(res);
         this.list = res.filter(listItem => !listItem.deleted);
       });
     }
   }
+
+  protected getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
+
+  // ngOnInit() {
+  //   if (this.listRef) {
+  //     this.listRef.valueChanges().subscribe((res: (TMainClass & { deleted: boolean })[]) => {
+  //       console.log(res);
+  //       this.list = res.filter(listItem => !listItem.deleted);
+  //     });
+  //   }
+  // }
 
   public getList(): Observable<TMainClass[]> { // convert to protect and call in child
     return this.list ? of(this.list) : this.listRef.valueChanges().pipe( take(1) );
@@ -79,14 +87,17 @@ export abstract class BaseListService<TMainClass, TUIClass> implements OnInit {
 
   protected modifyListItem(id: number, convertUser: (user: TMainClass) => TMainClass): Observable<boolean>  { // refactor that please
     return Observable.create((obs) => {
+      console.log(this.list);
       if (!this.list) {
         obs.next(false);
+        return;
       }
 
       const listItem = this.list.find((item: (TMainClass & { id: number; })) => item.id === id);
 
       if (!listItem) {
         obs.next(false);
+        return;
       }
 
       this.findUserKey(id)
@@ -99,10 +110,12 @@ export abstract class BaseListService<TMainClass, TUIClass> implements OnInit {
               (res) => {
                 console.log(res);
                 obs.next(true);
+                return;
               },
               (error) => {
                 console.log(error);
                 obs.next(false);
+                return;
               }
             );
         });

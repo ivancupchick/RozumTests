@@ -1,4 +1,4 @@
-<div class="test">
+<div *ngIf="!!test" class="test">
   <div>
     <div>
       <div class="mainInfo">
@@ -7,13 +7,19 @@
     </div>
     <div>
       <label for="name">Название Теста</label>
-      <input name="name" type="text" [(ngModel)]="test.name" required>
+      <input name="name" id="name" type="text" [(ngModel)]="test.name" required>
 
-      <label for="name">Время на выполнение в минутах</label>
-      <input name="name" type="number" [(ngModel)]="test.time" required>
+      <label for="time">Время на выполнение в минутах</label>
+      <input name="time" id="time" type="number" [(ngModel)]="test.time" required>
+
+      <label for="countForTaking">Кол-во заданий при прохождении теста</label>
+      <input name="countForTaking" id="countForTaking" type="number" [(ngModel)]="test.countForTaking" required>
+
+      <label for="positiveMark">Успешная оценка (используется при прохождении курсов)</label>
+      <input name="positiveMark" id="positiveMark" type="number" [(ngModel)]="test.positiveMark" required>
 
       <label for="description">Описание Теста</label>
-      <textarea name="description" [(ngModel)]="test.description" required></textarea>
+      <textarea id="description" name="description" [(ngModel)]="test.description" required></textarea>
     </div>
   </div>
   <div *ngFor="let task of test.tasks; let taskIndex = index">

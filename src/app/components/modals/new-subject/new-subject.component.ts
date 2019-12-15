@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModalContext } from 'src/app/modal/modal-context';
+import { SubjectsService } from 'src/app/server/subjects.service';
+import { NgForm } from '@angular/forms';
+import { Subject, ISubject } from 'src/app/services/entities';
 
 @Component({
   selector: 'app-new-subject',
@@ -9,7 +13,14 @@ import { ActivatedRoute } from '@angular/router';
 export class NewSubjectComponent implements OnInit {
   subjectId: number;
 
-  constructor(private activeRouter: ActivatedRoute) { }
+  description: string;
+  name: string;
+
+  isLoading = false; // implement spinner
+
+  constructor(private activeRouter: ActivatedRoute,
+              private context: ModalContext<NewSubjectComponent>,
+              private subjectsService: SubjectsService) { }
 
   ngOnInit() {
     this.activeRouter.queryParams.subscribe(res => {
@@ -17,7 +28,29 @@ export class NewSubjectComponent implements OnInit {
     });
   }
 
-  createTest(r) {
-    console.log(r);
+  onSubmit(formData: NgForm) {
+    this.isLoading = true;
+
+    const data: { name: string, description: string } = formData.value;
+
+    const newSubject: ISubject = {
+      name: data.name,
+      description: data.description,
+      deleted: false, // replace to service
+      tests: [], // replace to service
+      courses: [] // replace to service
+    };
+
+    this.subjectsService.createListItem(newSubject)
+      .subscribe(res => {
+        if (res) {
+          this.isLoading = false;
+          this.hide();
+        }
+      }, error => console.log(error));
+  }
+
+  hide() {
+    this.context.resolve();
   }
 }

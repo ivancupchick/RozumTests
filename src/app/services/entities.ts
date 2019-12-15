@@ -52,7 +52,7 @@ interface MainUserInfo {
   courseIds: number[];
   availableTest: AvailableTest[];
   tests: TakenTest[];
-  deleted?: boolean;
+  deleted: boolean;
 }
 
 export interface AvailableTest {
@@ -138,8 +138,9 @@ list of Subjects
     - Delete Course
 */
 
-export interface Subject {
-  id: number;
+export type Subject = ISubject & { id: number };
+
+export interface ISubject {
   name: string;
   description: string;
   tests: Test[];
@@ -161,9 +162,10 @@ export interface Test {
   uidOfAthor: string;
   positiveMark: number;
   tasks: Task[];
+  countForTaking: number;
   subjectId: number;
   time: number; // in minutes
-  deleted?: boolean;
+  deleted: boolean;
 }
 
 export interface TaskOption {

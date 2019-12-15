@@ -26,13 +26,24 @@ export interface NewOption extends TaskOption {
   checked: boolean;
 }
 
-export interface NewTask extends Task {
+export interface NewTask {
+  id: number;
+  description: string;
   options: NewOption[];
   typeTask: 'checkbox';
 }
 
-export interface NewTest extends Test {
+export interface NewTest { // extends Test
+  id?: number;
+  name: string;
+  description: string;
+  uidOfAthor: string;
+  positiveMark: number;
+  countForTaking: number;
+  subjectId: number;
   tasks: NewTask[];
+  time: number; // in minutes
+  deleted: boolean;
 }
 
 @Component({
@@ -41,34 +52,91 @@ export interface NewTest extends Test {
   styleUrls: ['./test-form.component.sass']
 })
 export class TestFormComponent implements OnInit {
-  @Input() test: NewTest;
+  @Input() set realTest(value: Test) {
+    if (!value) {
+      return;
+    }
+
+    const preparedTest: NewTest = {
+      id: value.id,
+      name: value.name,
+      subjectId: value.subjectId, // need add field for subject
+      positiveMark: value.positiveMark,
+      description: value.description,
+      uidOfAthor: value.uidOfAthor,
+      countForTaking: value.countForTaking,
+      tasks: value.tasks.map((task) => {
+        return {
+          id: task.id,
+          description: task.description,
+          options: task.options.map(option => {
+            return {
+              id: option.id,
+              description: option.description,
+              checked: task.correctOptionIds.findIndex(id => id === option.id) !== -1
+            };
+          }),
+          typeTask: 'checkbox'
+        } as NewTask;
+      }),
+      // [{
+      //   id: 0,
+      //   description: '',
+      //   // testId: null,
+      //   options: [{
+      //     id: 0,
+      //     description: '',
+      //     checked: false
+      //   }],
+      //   typeTask: 'checkbox',
+      //   correctOptionIds: []
+      // }],
+      time: value.time,
+      deleted: value.deleted || false
+    };
+
+    this.test = preparedTest;
+  }
+
+  test: NewTest;
+  @Input() set subjectId(value: number) {
+    if (!value) {
+      return;
+    }
+
+    this.test = {
+      id: null,
+      name: '',
+      subjectId: value, // need add field for subject
+      positiveMark: 8,
+      description: '',
+      uidOfAthor: '',
+      countForTaking: 10,
+      tasks: [{
+        id: 0,
+        description: '',
+        // testId: null,
+        options: [{
+          id: 0,
+          description: '',
+          checked: false
+        }],
+        typeTask: 'checkbox',
+        // correctOptionIds: []
+      }],
+      time: 1,
+      deleted: false
+    };
+  }
 
   constructor() { }
 
   ngOnInit() {
-    if (!this.test) {
-      this.test = {
-        id: null,
-        name: '',
-        subjectId: 0, // need add field for subject
-        positiveMark: 1,
-        description: '',
-        uidOfAthor: '',
-        tasks: [{
-          id: 0,
-          description: '',
-          // testId: null,
-          options: [{
-            id: 0,
-            description: '',
-            checked: false
-          }],
-          typeTask: 'checkbox',
-          correctOptionIds: []
-        }],
-        time: 0
-      };
-    }
+    // if (!this.test) {
+
+    // } else {
+    //   // THI
+    // }
   }
 
   public isFormValid(): boolean {
@@ -98,29 +166,49 @@ export class TestFormComponent implements OnInit {
     //   }
     // }
 
-    newTest.tasks.forEach(task => {
-      task.options = task.options.map(option => {
-        if (option.checked) {
-          task.correctOptionIds.push(option.id);
-        }
+    const test: Test = {
+      id: newTest.id,
+      name: newTest.name,
+      description: newTest.description,
+      uidOfAthor: newTest.uidOfAthor,
+      positiveMark: newTest.positiveMark,
+      tasks: newTest.tasks.map(task => {
+        return {
+          id: task.id,
+          description: task.description,
+          options: task.options.map(option => ({ id: option.id, description: option.description })),
+          correctOptionIds: task.options
+            .filter(option => option.checked)
+            .map(option => option.id)
+        };
+      }),
+      countForTaking: newTest.countForTaking,
+      subjectId: newTest.subjectId,
+      time: (newTest.time * 60 * 1000), // in minutes,
+      deleted: newTest.deleted
+    };
 
-        delete option.checked;
+    // newTest.tasks.forEach(task => {
+    //   task.options = task.options.map(option => {
+    //     if (option.checked) {
+    //       task.correctOptionIds.push(option.id);
+    //     }
 
-        return Object.assign({}, option);
-      });
-    });
+    //     delete option.checked;
 
-    newTest.tasks.forEach(task => {
-      if (task.correctOptionIds.length > 1) {
-        // task.typeTask = TaakTypeEnum.checkbox;
-      } else if (task.correctOptionIds.length === 1) {
-        // task.typeTask = TaakTypeEnum.radio;
-      }
-    });
+    //     return Object.assign({}, option);
+    //   });
+    // });
 
-    newTest.time *= (60 * 1000);
+    // newTest.tasks.forEach(task => {
+    //   if (task.correctOptionIds.length > 1) {
+    //     // task.typeTask = TaakTypeEnum.checkbox;
+    //   } else if (task.correctOptionIds.length === 1) {
+    //     // task.typeTask = TaakTypeEnum.radio;
+    //   }
+    // });
 
-    return newTest as Test;
+    return test;
   }
 
   addTask() {
@@ -133,13 +221,11 @@ export class TestFormComponent implements OnInit {
         description: '',
         checked: false
       }],
-      typeTask: 'checkbox',
-      correctOptionIds: []
+      typeTask: 'checkbox'
     }); //  [taskIndex].options.push({ id: this.test.tasks[taskIndex].options.length } as NewOption);
   }
 
   addNewOption(taskIndex: number) {
-    console.log( this.test.tasks[taskIndex]);
     this.test.tasks[taskIndex].options.push({ id: this.test.tasks[taskIndex].options.length } as NewOption);
   }
 

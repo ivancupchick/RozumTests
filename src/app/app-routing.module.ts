@@ -6,6 +6,7 @@ import { CreateTestComponent } from './components/create-test/create-test.compon
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 import { UsersComponent } from './components/users/users.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
+import { EditTestComponent } from './components/edit-test/edit-test.component';
 // import { NewSubjectComponent } from './components/modals/new-subject/new-subject.component';
 
 const routes: Routes = [{
@@ -21,6 +22,9 @@ const routes: Routes = [{
   }, {
     path: 'new-test',
     component: CreateTestComponent
+  }, {
+    path: 'edit-test',
+    component: EditTestComponent
   }, {
     path: 'take-the-test',
     component: TakeTheTestComponent

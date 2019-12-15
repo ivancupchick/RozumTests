@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'src/app/services/entities';
+import { Subject, Test } from 'src/app/services/entities';
 import { SubjectsService } from 'src/app/server/subjects.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -32,6 +32,10 @@ export class SubjectsComponent implements OnInit {
 
   createTest(subject: Subject) {
     this.router.navigateByUrl(`new-test?id=${subject.id}`);
+  }
+
+  editTest(subject: Subject, test: Test) {
+    this.router.navigateByUrl(`edit-test?id=${subject.id}&testId=${test.id}`);
   }
 
   deleteTest(id: number) {

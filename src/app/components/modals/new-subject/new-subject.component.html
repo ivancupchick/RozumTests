@@ -1,21 +1,18 @@
-<div class="container">
-  <!-- <app-test-form></app-test-form> -->
-  <div class="subject-input">
-    <label for="name">Название</label>
-    <input name="name" />
-  </div>
+<form #formData='ngForm'>
+  <div class="container">
+    <div class="subject-input">
+      <label for="name">Название</label>
+      <input autocomplete="off" placeholder="Введите название..." [(ngModel)]="name" name="name" id="name" required/>
+    </div>
 
-  <div class="subject-input">
-    <label for="description">Описание</label>
-    <input name="description" />
+    <div class="subject-input">
+      <label for="description">Описание</label>
+      <input autocomplete="off" placeholder="Введите описание..." [(ngModel)]="description" name="description" id="description" required/>
+    </div>
   </div>
-
-  <!-- <label for="name"></label>
-  <input name="name" /> -->
 
   <div class="buttons">
-    <button type="button" class="cancel" routerLink="tests">Cancel</button>
-    <button type="button" class="submit" (click)="createTest()">Создать Предмет</button>
+    <button type="button" class="cancel" (click)="hide()">Cancel</button>
+    <button type="button" class="submit" [disabled]="!formData.valid" (click)="onSubmit(formData)">Создать Предмет</button>
   </div>
-
-</div>
+</form>

@@ -1,17 +1,28 @@
 <div class="container">
   <div class="toolbar">
-    <button class="control-button" (click)="createSubject()">New Subject</button>
-    <button class="control-button disabled" disabled>Edit Subject</button>
-    <button class="control-button disabled" disabled>Delete Subject</button>
+    <button class="control-button" (click)="createSubject()">Создать предмет</button>
+    <!-- <button class="control-button disabled" disabled>Edit Subject</button>
+    <button class="control-button disabled" disabled>Delete Subject</button> -->
   </div>
 
   <div class="container-subjects">
     <div class="container-subject" *ngFor="let subject of subjects">
       <p>{{subject.name}}</p>
       <p>{{subject.description}}</p>
-      <button (click)="createTest(subject)">Создать тест</button>
-      <button *ngIf="true" disabled>Редактировать</button>
-      <button *ngIf="true" (click)="deleteTest(subject.id)">Удалить</button>
+
+      <div class="tests">
+        <div class="item" *ngFor="let test of subject.tests">
+          <span>{{test.name}}</span>
+          <span class="additionalText">Кол-во заданий в тесте: {{test.tasks.length || 0}}</span>
+          <button *ngIf="true" (click)="editTest(subject, test)">Редактировать</button>
+          <button *ngIf="true" (click)="deleteTest(subject.id)">Удалить</button>
+        </div>
+      </div>
+
+
+      <div class="buttons">
+        <button (click)="createTest(subject)">Создать тест</button>
+      </div>
     </div>
   </div>
   <!-- <div class="container-buttons"></div>

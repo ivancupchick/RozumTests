@@ -19,7 +19,7 @@ export class TestsComponent implements OnInit {
     this.authService.getUserInfo()
       .pipe( take(1) )
       .subscribe(res => {
-        this.subjectsService.getTests(res.availableTest)
+        this.subjectsService.getTests(res.availableTest, res.role)
           .subscribe((tests: Test[]) => {
             this.tests = tests || [];
           });

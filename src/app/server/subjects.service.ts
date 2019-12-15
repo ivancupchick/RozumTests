@@ -1,35 +1,73 @@
 import { Injectable } from '@angular/core';
 import { BaseListService } from './base-list.service';
-import { Subject, Test, AvailableTest } from '../services/entities';
+import { Subject, Test, AvailableTest, ISubject } from '../services/entities';
 import { AngularFireList, AngularFireDatabase } from '@angular/fire/database/database';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubjectsService extends BaseListService<Subject, Subject> {
+export class SubjectsService extends BaseListService<Subject, ISubject> {
   protected listRef: AngularFireList<Subject> = this.db.list('subjects');
 
   constructor(db: AngularFireDatabase) {
     super(db);
+
+    if (this.listRef) {
+      this.listRef.valueChanges().subscribe((res: (Subject & { deleted: boolean })[]) => {
+        console.log(res);
+        this.list = res.filter(listItem => !listItem.deleted);
+      });
+    }
   }
 
-  protected getDBDataFromUI = (uiClass: Subject, listWithValues: Subject[]): Subject => {
-    return Object.assign({}, uiClass, { id: listWithValues.length || 1 });
+  protected getDBDataFromUI = (uiClass: ISubject, listWithValues: Subject[]): Subject => {
+    return Object.assign({}, uiClass, { id: listWithValues ? listWithValues.length || 0 : 0 });
   }
 
   public createTest(test: Test) { // create support for uid: string
     return this.modifyListItem(test.subjectId, subject => {
-        test.id = subject.tests.length;
+        test.id = subject.tests ? subject.tests.length : 0;
 
-        subject.tests.push(test);
+        if (subject.tests && Array.isArray(subject.tests)) {
+          subject.tests.push(test);
+        } else {
+          subject.tests = [ test ];
+        }
 
         return subject;
       }
     );
   }
 
-  public getTests(availableTests: AvailableTest[]): Observable<Test[]> {
+  public modifyTest(test: Test) { // create support for uid: string
+    return this.modifyListItem(test.subjectId, subject => {
+        // test.id = subject.tests ? subject.tests.length : 0;
+
+        if (!subject || !subject.tests) {
+          return subject;
+        }
+
+        subject.tests = subject.tests.map(existTest => {
+          if (existTest.id === test.id) {
+            return test;
+          } else {
+            return existTest;
+          }
+        });
+
+        // if (subject.tests && Array.isArray(subject.tests)) {
+        //   subject.tests.push(test);
+        // } else {
+        //   console.log('Что-то пошло не так в subject.service.ts');
+        // }
+
+        return subject;
+      }
+    );
+  }
+
+  public getTests(availableTests: AvailableTest[], role: 'Admin' | 'User'): Observable<Test[]> {
     return Observable.create(obs => {
       const tests: Test[] = [];
 
@@ -39,7 +77,12 @@ export class SubjectsService extends BaseListService<Subject, Subject> {
 
       this.list.forEach(subject => {
         subject.tests.forEach(subjectTest => {
-          const abailableTest = availableTests.find(availableTest => {
+          if (role === 'Admin') {
+            tests.push(subjectTest);
+            return;
+          }
+
+          const abailableTest = availableTests && availableTests.find(availableTest => {
             return availableTest.subjectId === subject.id && subjectTest.id && !subjectTest.deleted;
           });
 
