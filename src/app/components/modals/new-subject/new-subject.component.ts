@@ -16,4 +16,8 @@ export class NewSubjectComponent implements OnInit {
       this.subjectId = res.id;
     });
   }
+
+  createTest(r) {
+    console.log(r);
+  }
 }

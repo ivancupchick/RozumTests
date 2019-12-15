@@ -26,7 +26,7 @@ import { TestFormComponent } from './components/shared/test-form/test-form.compo
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 import { UsersComponent } from './components/users/users.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
-import { NewSubjectComponent } from './components/new-subject/new-subject.component';
+import { NewSubjectComponent } from './components/modals/new-subject/new-subject.component';
 import { WindowModule } from './window/window.module';
 import { WindowsService } from './services/windows.service';
 
@@ -65,7 +65,8 @@ import { WindowsService } from './services/windows.service';
   ],
   entryComponents: [
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    NewSubjectComponent
   ],
   bootstrap: [AppComponent]
 })

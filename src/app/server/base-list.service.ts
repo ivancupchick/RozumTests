@@ -3,14 +3,14 @@ import { AngularFireList, AngularFireDatabase, AngularFireAction, DatabaseSnapsh
 import { Observable, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
-@Injectable()
-export class BaseListService<TMainClass, TUIClass> implements OnInit {
+@Injectable() // may delete this?
+export abstract class BaseListService<TMainClass, TUIClass> implements OnInit {
   protected list: TMainClass[];
-  protected listRef: AngularFireList<TMainClass>; // = this.db.list('userGroups');
+  protected abstract listRef: AngularFireList<TMainClass>; // = this.db.list('userGroups');
 
   constructor(protected db: AngularFireDatabase) { }
 
-  protected getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
+  protected abstract getDBDataFromUI: (uiClass: TUIClass, listWithValues: TMainClass[]) => TMainClass;
 
   ngOnInit() {
     if (this.listRef) {

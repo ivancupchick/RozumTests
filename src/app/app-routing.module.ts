@@ -6,7 +6,7 @@ import { CreateTestComponent } from './components/create-test/create-test.compon
 import { TakeTheTestComponent } from './components/take-the-test/take-the-test.component';
 import { UsersComponent } from './components/users/users.component';
 import { SubjectsComponent } from './components/subjects/subjects.component';
-import { NewSubjectComponent } from './components/new-subject/new-subject.component';
+// import { NewSubjectComponent } from './components/modals/new-subject/new-subject.component';
 
 const routes: Routes = [{
     path: '',
@@ -30,10 +30,11 @@ const routes: Routes = [{
   }, {
     path: 'subjects',
     component: SubjectsComponent
-  }, {
-    path: 'new-subject',
-    component: NewSubjectComponent
-  }
+  },
+  // {
+  //   path: 'new-subject',
+  //   component: NewSubjectComponent
+  // }
 
   // { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   // { path: 'quastion', component: CreatequastionComponent, canActivate: [AuthGuard] },
