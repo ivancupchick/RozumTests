@@ -4,12 +4,12 @@
   display: flex
   flex-direction: column
   justify-content: flex-start
-  border: 1px red solid
+  border: 0
 
   &>div
     width: 100%
-    border: 1px red solid
     display: flex
+    margin: 5px
 
     label
       margin: 5px 0
@@ -19,18 +19,16 @@
       margin: 5px
 
     &> div:first-child
-      width: 200px
+      width: 250px
       display: flex
       flex-direction: column
       justify-content: flex-end
-      border: 1px red solid
 
       .mainInfo
         height: 100%
 
     &> div:last-child
       flex: 1 1 auto
-      border: 1px red solid
       display: flex
       flex-direction: column
 
@@ -54,3 +52,25 @@
         flex-direction: column
         margin-bottom: 5px
         align-items: flex-start
+
+.add-task
+  outline: none
+  border-radius: 5px
+  min-width: 150px
+  height: 40px
+  margin: 5px
+  font-weight: bold
+  color: white
+  border: 1px #5085A5 solid
+  background-color: #5085A5
+
+.option-button
+  outline: none
+  border-radius: 5px
+  min-width: 170px
+  height: 25px
+  margin: 5px
+  font-weight: lighter
+  color: white
+  border: 1px #8FC1E3 solid
+  background-color: #8FC1E3

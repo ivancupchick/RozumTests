@@ -25,8 +25,8 @@
 </form>
 
 <div class="buttons">
-  <button type="button" (click)="hide()">Отмена</button>
-  <button type="button" [disabled]="!formData.valid" (click)="onSubmit(formData)">Зарегистрироваться</button>
+  <button type="button" class="cancel" (click)="hide()">Отмена</button>
+  <button type="button" class="submit" [disabled]="!formData.valid" (click)="onSubmit(formData)">Зарегистрироваться</button>
 </div>
 
 

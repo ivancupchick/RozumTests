@@ -18,8 +18,8 @@
   </div>
   <div *ngFor="let task of test.tasks; let taskIndex = index">
     <div>
-      <button type="button" (click)="addNewOption(taskIndex)">Добавить вариант ответа</button>
-      <button type="button" (click)="deleteNewOption(taskIndex)">Удалить вариант ответа</button>
+      <button type="button" class="option-button" (click)="addNewOption(taskIndex)">Добавить вариант ответа</button>
+      <button type="button" class="option-button" (click)="deleteNewOption(taskIndex)">Удалить вариант ответа</button>
     </div>
     <div>
       <div>
@@ -37,5 +37,5 @@
     </div>
   </div>
 
-  <button type="button" (click)="addTask()">Добавить задание</button>
+  <button type="button" class="add-task" (click)="addTask()">Добавить задание</button>
 </div>
