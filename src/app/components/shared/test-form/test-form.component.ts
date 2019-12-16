@@ -100,7 +100,7 @@ export class TestFormComponent implements OnInit {
 
   test: NewTest;
   @Input() set subjectId(value: number) {
-    if (!value) {
+    if (value == null) {
       return;
     }
 
