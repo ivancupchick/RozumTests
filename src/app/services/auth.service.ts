@@ -74,7 +74,7 @@ export class AuthService {
     if (count) { // we can delete this
       const user: IUserInfo = {
         uid: credential.user.uid,
-        name: credential.user.displayName || name,
+        name: name || credential.user.displayName,
         email: credential.user.email,
         photoUrl: credential.user.photoURL,
         role: 'User',

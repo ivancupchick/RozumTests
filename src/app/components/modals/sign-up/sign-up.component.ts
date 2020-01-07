@@ -80,8 +80,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.group = group.name;
   }
 
-
-
   onSubmit(formData) {
     const group = this.groups.find(iGroup => equalsString(iGroup.name, this.group));
 

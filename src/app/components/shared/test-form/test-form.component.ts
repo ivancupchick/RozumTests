@@ -73,7 +73,7 @@ export class TestFormComponent implements OnInit {
             return {
               id: option.id,
               description: option.description,
-              checked: task.correctOptionIds.findIndex(id => id === option.id) !== -1
+              checked: (task.correctOptionIds || []).findIndex(id => id === option.id) !== -1
             };
           }),
           typeTask: 'checkbox'
